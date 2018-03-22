@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VsixLanguagePack Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema-lp/2010">
-  <LocalizedName>Harurow Extensions RedundantWhiteSpace</LocalizedName>
+  <LocalizedName>Harurow RedundantWhiteSpace</LocalizedName>
   <LocalizedDescription xml:space="preserve">自分の、自分による、自分のための拡張。
 余剰な空白文字を強調表示</LocalizedDescription>
   <License>LICENSE.txt</License>

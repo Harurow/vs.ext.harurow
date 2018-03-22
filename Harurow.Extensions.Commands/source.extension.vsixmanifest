@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.Commands.15adb236-69fb-4a82-9195-b9c8ffe736a4" Version="1.0.0.5" Language="en-US" Publisher="Harurow" />
-        <DisplayName>Harurow Extensions Commands</DisplayName>
+        <Identity Id="Harurow.Extensions.Commands.15adb236-69fb-4a82-9195-b9c8ffe736a4" Version="1.0.0.10" Language="en-US" Publisher="Harurow" />
+        <DisplayName>Harurow Commands</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
 Added convenience function.</Description>
         <License>LICENSE.txt</License>

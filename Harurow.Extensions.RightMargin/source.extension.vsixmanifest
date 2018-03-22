@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.RightMargin.4a6897bc-5f45-4575-8552-89c2b482787a" Version="1.0.0.5" Language="en-US" Publisher="Harurow" />
-        <DisplayName>Harurow Extensions RightMargin</DisplayName>
+        <Identity Id="Harurow.Extensions.RightMargin.4a6897bc-5f45-4575-8552-89c2b482787a" Version="1.0.0.10" Language="en-US" Publisher="Harurow" />
+        <DisplayName>Harurow RightMargin</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
 Paint right margin.
 </Description>
