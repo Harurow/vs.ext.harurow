@@ -89,6 +89,18 @@ namespace Harurow.Extensions.Commands
                         return true;
                 }
             }
+            else if (self.MenuGroupGuid == VSConstants.GUID_VSStandardCommandSet97)
+            {
+                switch (self.CommandId)
+                {
+                    case (uint)VSConstants.VSStd97CmdID.Undo:
+                    case (uint)VSConstants.VSStd97CmdID.MultiLevelUndo:
+                    case (uint)VSConstants.VSStd97CmdID.MultiLevelUndoList:
+                    case (uint)VSConstants.VSStd97CmdID.MultiLevelRedo:
+                    case (uint)VSConstants.VSStd97CmdID.MultiLevelRedoList:
+                        return true;
+                }
+            }
 
             return false;
         }
@@ -113,6 +125,14 @@ namespace Harurow.Extensions.Commands
                     case (uint) VSConstants.VSStd2KCmdID.DELETEWHITESPACE:
                     case (uint) VSConstants.VSStd2KCmdID.SELUPCASE:
                     case (uint) VSConstants.VSStd2KCmdID.SELLOWCASE:
+                        return true;
+                }
+            }
+            else if (self.MenuGroupGuid == VSConstants.GUID_VSStandardCommandSet97)
+            {
+                switch (self.CommandId)
+                {
+                    case (uint) VSConstants.VSStd97CmdID.Delete:
                         return true;
                 }
             }

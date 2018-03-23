@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Harurow.Extensions.Commands;
 using Microsoft.VisualStudio.Text;
@@ -12,8 +11,8 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
         private const int BufferSize = 4 * 1024;
 
         private HashSet<int> CaretPositions { get; }
-        private List<SnapshotSpan> MatchedSpans { get; }
-        private SnapshotSpan? StartSpan { get; }
+        private List<ITrackingSpan> MatchedSpans { get; }
+        private ITrackingSpan StartSpan { get; }
         private bool InFindNextSelected { get; set; }
 
         public SelectState(IMultipleSelectionStateManager stateContext, bool addSelection)
@@ -21,13 +20,11 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
         {
             CaretPositions = new HashSet<int>();
 
-            MatchedSpans = new List<SnapshotSpan>();
+            MatchedSpans = new List<ITrackingSpan>();
             MatchedSpans.AddRange(EnumerateToNextFindMatch());
 
-            MatchedSpans.ForEach(span => Debug.WriteLine($"{span.Start.Position} - {span.End.Position}"));
-
             var startPoint = TextView.Selection.Start.Position;
-            var startSpan = MatchedSpans.First(span => span.Contains(startPoint));
+            var startSpan = MatchedSpans.First(span => span.GetSpan(TextView.TextSnapshot).Contains(startPoint));
 
             StartSpan = null;
 
@@ -43,44 +40,44 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
             StartSpan = startSpan;
         }
 
-        private IEnumerable<SnapshotSpan> EnumerateToNextFindMatch()
+        private IEnumerable<ITrackingSpan> EnumerateToNextFindMatch()
         {
-            if (TextView.Selection.IsEmpty)
+            var matches = new List<ITrackingSpan>();
+
+            if (!TextView.Selection.IsEmpty)
             {
-                return new List<SnapshotSpan>();
-            }
+                var snapshot = TextView.TextSnapshot;
+                var curSpan = TextView.Selection.SelectedSpans[0];
+                var targetText = curSpan.GetText();
 
-            var snapshot = TextView.TextSnapshot;
-            var curSpan = TextView.Selection.SelectedSpans[0];
-            var targetText = curSpan.GetText();
-
-            var matches = new List<SnapshotSpan>();
-
-            var startIndex = 0;
-            while (true)
-            {
-                var endIndex = Math.Min(snapshot.Length, startIndex + BufferSize);
-                var text = snapshot.GetText(startIndex, endIndex - startIndex);
-
-                var offset = 0;
+                var startIndex = 0;
                 while (true)
                 {
-                    var findIndex = text.IndexOf(targetText, offset, StringComparison.Ordinal);
-                    if (findIndex == -1)
+                    var endIndex = Math.Min(snapshot.Length, startIndex + BufferSize);
+                    var text = snapshot.GetText(startIndex, endIndex - startIndex);
+
+                    var offset = 0;
+                    while (true)
+                    {
+                        var findIndex = text.IndexOf(targetText, offset, StringComparison.Ordinal);
+                        if (findIndex == -1)
+                        {
+                            break;
+                        }
+
+                        matches.Add(TextView.TextSnapshot.CreateTrackingSpan(startIndex + findIndex, targetText.Length,
+                            SpanTrackingMode.EdgePositive));
+
+                        offset = findIndex + targetText.Length;
+                    }
+
+                    if (endIndex == snapshot.Length)
                     {
                         break;
                     }
 
-                    matches.Add(new SnapshotSpan(snapshot, startIndex + findIndex, targetText.Length));
-                    offset = findIndex + targetText.Length;
+                    startIndex = endIndex - targetText.Length + 1;
                 }
-
-                if (endIndex == snapshot.Length)
-                {
-                    break;
-                }
-
-                startIndex = endIndex - targetText.Length + 1;
             }
 
             return matches;
@@ -146,12 +143,12 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
                 InFindNextSelected = true;
 
                 var curPoint = TextView.Selection.Start.Position;
-                var curIndex = MatchedSpans.FindIndex(span => span.Contains(curPoint));
+                var curIndex = MatchedSpans.FindIndex(span => span.GetSpan(TextView.TextSnapshot).Contains(curPoint));
                 var nextIndex = curIndex + 1 < MatchedSpans.Count
                     ? curIndex + 1
                     : 0;
 
-                var nextMatchedSpan = MatchedSpans[nextIndex];
+                var nextMatchedSpan = MatchedSpans[nextIndex].GetSpan(TextView.TextSnapshot);
 
                 StateContext.OutliningManager
                     .GetCollapsedRegions(nextMatchedSpan)
@@ -162,7 +159,7 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
                 TextView.Caret.MoveTo(nextMatchedSpan.End);
                 TextView.Caret.EnsureVisible();
 
-                if (StartSpan != null && StartSpan == nextMatchedSpan)
+                if (StartSpan != null && StartSpan.GetSpan(TextView.TextSnapshot) == nextMatchedSpan)
                 {
                     // TODO: 一周しました
                 }
@@ -173,25 +170,26 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
             }
         }
 
-        private SnapshotSpan GetCurrentMatchedSpan()
+        private ITrackingSpan GetCurrentMatchedSpan()
         {
             var curPoint = TextView.Selection.Start.Position;
-            return MatchedSpans.FirstOrDefault(span => span.Contains(curPoint));
+            return MatchedSpans.FirstOrDefault(span => span.GetSpan(TextView.TextSnapshot).Contains(curPoint));
         }
 
         private void AddTrackingSpanFromSelectedSpan()
         {
             var curSpan = GetCurrentMatchedSpan();
 
-            if (curSpan == default(SnapshotSpan))
+            if (curSpan == null)
             {
                 SetStateToNormal();
                 return;
             }
 
-            if (!CaretPositions.Contains(curSpan.Start))
+            var pos = curSpan.GetStartPoint(TextView.TextSnapshot).Position;
+            if (!CaretPositions.Contains(pos))
             {
-                CaretPositions.Add(curSpan.Start);
+                CaretPositions.Add(pos);
                 StateContext.TrackingSelections.Add(new TrackingSelection(TextView));
             }
         }
@@ -200,17 +198,18 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
         {
             var curSpan = GetCurrentMatchedSpan();
 
-            if (curSpan == default(SnapshotSpan))
+            if (curSpan == null)
             {
                 SetStateToNormal();
                 return;
             }
 
-            if (CaretPositions.Contains(curSpan.Start))
+            var pos = curSpan.GetStartPoint(TextView.TextSnapshot).Position;
+            if (CaretPositions.Contains(pos))
             {
-                CaretPositions.Remove(curSpan.Start);
+                CaretPositions.Remove(pos);
                 var removeItem = StateContext.TrackingSelections
-                    .First(ts => ts.Span.GetSpan(TextView.TextSnapshot).Contains(curSpan.Start));
+                    .First(ts => ts.Span.GetSpan(TextView.TextSnapshot).Contains(pos));
                 StateContext.TrackingSelections.Remove(removeItem);
             }
         }
@@ -221,8 +220,8 @@ namespace Harurow.Extensions.MultipleSelection.Behaviors.Filters.States
 
             if (StartSpan != null)
             {
-                TextView.Selection.Select(StartSpan.Value, false);
-                TextView.Caret.MoveTo(StartSpan.Value.End);
+                TextView.Selection.Select(StartSpan.GetSpan(TextView.TextSnapshot), false);
+                TextView.Caret.MoveTo(StartSpan.GetStartPoint(TextView.TextSnapshot));
                 TextView.Caret.EnsureVisible();
             }
         }
