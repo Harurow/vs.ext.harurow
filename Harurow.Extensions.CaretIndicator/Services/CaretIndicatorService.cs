@@ -9,7 +9,6 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.CaretIndicator.Services
 {
-
     internal sealed class CaretIndicatorService : IDisposable
     {
         private IWpfTextView TextView { get; }

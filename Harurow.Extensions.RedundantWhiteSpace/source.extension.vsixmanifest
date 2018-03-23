@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.RedundantWhiteSpace.894f5a48-0136-4b81-b82e-5005366e9fad" Version="1.0.0.10" Language="en-US" Publisher="Harurow" />
+        <Identity Id="Harurow.Extensions.RedundantWhiteSpace.894f5a48-0136-4b81-b82e-5005366e9fad" Version="1.0.0.11" Language="en-US" Publisher="Harurow" />
         <DisplayName>Harurow RedundantWhiteSpace</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
-Hilight redundant whitespaces.</Description>
+Highlight redundant whitespaces.</Description>
         <License>LICENSE.txt</License>
         <Tags>white space redundant</Tags>
     </Metadata>
