@@ -87,14 +87,10 @@ namespace Harurow.Extensions.CaretIndicator.Adronments
                 return;
             }
 
-            if (e.NewViewState.ViewportTop.IsNotEquals(e.OldViewState.ViewportTop))
+            var caretBottom = GetSafeCaretBottom();
+            if (0 <= caretBottom)
             {
-                var caretBottom = GetSafeCaretBottom();
-                if (e.NewViewState.ViewportTop <= caretBottom &&
-                    caretBottom <= e.NewViewState.ViewportBottom)
-                {
-                    Canvas.SetTop(LineIndicatorImage, caretBottom);
-                }
+                Canvas.SetTop(LineIndicatorImage, caretBottom);
             }
 
             if (e.NewViewState.ViewportLeft.IsNotEquals(e.OldViewState.ViewportLeft))
