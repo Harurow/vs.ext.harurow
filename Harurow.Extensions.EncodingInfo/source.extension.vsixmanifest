@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.EncodingInfo.af725ef4-372d-4f65-b7e8-a4f9fd39f7a1" Version="1.0.0.10" Language="en-US" Publisher="Harurow" />
+        <Identity Id="Harurow.Extensions.EncodingInfo.af725ef4-372d-4f65-b7e8-a4f9fd39f7a1" Version="1.0.1.11" Language="en-US" Publisher="Harurow" />
         <DisplayName>Harurow EncodingInfo</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
 Displays the encoding information of the file.</Description>

@@ -18,7 +18,7 @@ namespace Harurow.Extensions.Commands
     public sealed class CommandsPackage : Package
     {
         public const string PackageGuidString = "465d2000-2106-4cec-a423-fdc054883419";
-        
+
         #region Package Members
 
         protected override void Initialize()
@@ -27,7 +27,7 @@ namespace Harurow.Extensions.Commands
 
             ThreadHelper.ThrowIfNotOnUIThread();
             var service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            
+
             Bootstrap.Initialize(service);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Harurow.Extensions.EncodingInfo.Services;
 using Harurow.Extensions.Extensions;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;

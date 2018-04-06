@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Harurow.Extensions.Extensions
@@ -49,6 +50,21 @@ namespace Harurow.Extensions.Extensions
             self.TextBuffer
                 .Properties
                 .TryGetProperty<ITextDocument>(typeof(ITextDocument), out var doc);
+
+            if (doc == null)
+            {
+                self.TextBuffer
+                    .Properties
+                    .TryGetProperty<ITextBufferUndoManager>(typeof(ITextBufferUndoManager), out var txBufUndoMgr);
+
+                if (txBufUndoMgr != null)
+                {
+                    txBufUndoMgr.TextBuffer
+                        .Properties
+                        .TryGetProperty(typeof(ITextDocument), out doc);
+                }
+            }
+
             return doc;
         }
 
