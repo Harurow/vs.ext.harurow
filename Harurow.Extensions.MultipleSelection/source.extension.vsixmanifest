@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.MultipleSelection.da8dbee7-f793-410b-b7f0-2d0563066453" Version="1.0.0.11" Language="en-US" Publisher="Harurow" />
+        <Identity Id="Harurow.Extensions.MultipleSelection.da8dbee7-f793-410b-b7f0-2d0563066453" Version="1.0.0.12" Language="en-US" Publisher="Harurow" />
         <DisplayName>Harurow MultipleSelection</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
 Support multiple-selection, multiple-editing. like a vscode.</Description>
@@ -9,7 +9,7 @@ Support multiple-selection, multiple-editing. like a vscode.</Description>
         <Tags>caret multiple selection edit</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,15.8)" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.1,)" />
