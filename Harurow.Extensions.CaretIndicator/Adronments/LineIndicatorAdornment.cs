@@ -67,13 +67,9 @@ namespace Harurow.Extensions.CaretIndicator.Adronments
                 return;
             }
 
-            var oldPosition = e.OldPosition.BufferPosition;
-            var newPosition = e.NewPosition.BufferPosition;
-
-            if (TextView.TextSnapshot.GetLineNumberFromPosition(newPosition) !=
-                TextView.TextSnapshot.GetLineNumberFromPosition(oldPosition))
+            var caretBottom = GetSafeCaretBottom();
+            if (0 <= caretBottom)
             {
-                var caretBottom = GetSafeCaretBottom();
                 Canvas.SetTop(LineIndicatorImage, caretBottom);
             }
         }
