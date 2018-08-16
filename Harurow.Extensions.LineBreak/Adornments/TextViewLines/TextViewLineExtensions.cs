@@ -12,7 +12,7 @@ namespace Harurow.Extensions.LineBreak.Adornments.TextViewLines
             {
                 case "\r\n": return LineBreakKind.CrLf;
                 case "\r": return LineBreakKind.Cr;
-                case "\n": return LineBreakKind.CrLf;
+                case "\n": return LineBreakKind.Lf;
                 case "\u0085": return LineBreakKind.Nel;
                 case "\u2028": return LineBreakKind.Ls;
                 case "\u2029": return LineBreakKind.Ps;

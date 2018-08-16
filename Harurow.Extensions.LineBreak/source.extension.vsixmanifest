@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Harurow.Extensions.LineBreak.31838239-114f-4d70-9fdc-bac9ae58fa04" Version="1.0.0.10" Language="en-US" Publisher="Harurow" />
+        <Identity Id="Harurow.Extensions.LineBreak.31838239-114f-4d70-9fdc-bac9ae58fa04" Version="1.0.0.12" Language="en-US" Publisher="Harurow" />
         <DisplayName>Harurow LineBreak</DisplayName>
         <Description xml:space="preserve">Extension for myself by myself.
 Visible line-break</Description>
