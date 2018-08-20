@@ -35,7 +35,7 @@ namespace Harurow.Extensions.CaretIndicator.Adronments
             }
             catch (InvalidOperationException)
             {
-                return -1;
+                return int.MinValue;
             }
         }
 
@@ -68,7 +68,7 @@ namespace Harurow.Extensions.CaretIndicator.Adronments
             }
 
             var caretBottom = GetSafeCaretBottom();
-            if (0 <= caretBottom)
+            if (int.MinValue < caretBottom)
             {
                 Canvas.SetTop(LineIndicatorImage, caretBottom);
             }
@@ -84,7 +84,7 @@ namespace Harurow.Extensions.CaretIndicator.Adronments
             }
 
             var caretBottom = GetSafeCaretBottom();
-            if (0 <= caretBottom)
+            if (int.MinValue < caretBottom)
             {
                 Canvas.SetTop(LineIndicatorImage, caretBottom);
             }
