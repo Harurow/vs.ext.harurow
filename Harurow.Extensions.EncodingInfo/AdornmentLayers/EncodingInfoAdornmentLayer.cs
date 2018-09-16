@@ -12,7 +12,8 @@ namespace Harurow.Extensions.EncodingInfo.AdornmentLayers
 
         [Export(typeof(AdornmentLayerDefinition))]
         [Name(LayerName)]
-        [Order(After = PredefinedAdornmentLayers.Text, Before = PredefinedAdornmentLayers.Caret)]
+        [Order(After = PredefinedAdornmentLayers.Text,
+            Before = PredefinedAdornmentLayers.Caret)]
         [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
         private AdornmentLayerDefinition AdornmentLayer { get; set; }
 

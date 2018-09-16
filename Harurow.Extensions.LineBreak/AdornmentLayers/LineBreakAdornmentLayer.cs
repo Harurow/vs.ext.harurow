@@ -12,7 +12,8 @@ namespace Harurow.Extensions.LineBreak.AdornmentLayers
 
         [Export(typeof(AdornmentLayerDefinition))]
         [Name(LayerName)]
-        [Order(After = PredefinedAdornmentLayers.Selection, Before = PredefinedAdornmentLayers.Text)]
+        [Order(After = PredefinedAdornmentLayers.Selection,
+            Before = PredefinedAdornmentLayers.Text)]
         [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
         private AdornmentLayerDefinition AdornmentLayer { get; set; }
 
