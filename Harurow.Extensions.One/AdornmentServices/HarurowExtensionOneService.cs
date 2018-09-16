@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.AdornmentServices
 {
-    public class RightMarginService
+    public class HarurowExtensionOneService
     {
         private IWpfTextView TextView { get; }
         private IEditorFormatMap EditorFormatMap { get; }
@@ -16,7 +16,7 @@ namespace Harurow.Extensions.One.AdornmentServices
         private bool IsInitialized { get; set; }
         private RightMarginAdornment RightMarginAdornment { get; set; }
 
-        public RightMarginService(IWpfTextView textView, IEditorFormatMapService editorFormatMapService)
+        public HarurowExtensionOneService(IWpfTextView textView, IEditorFormatMapService editorFormatMapService)
         {
             TextView = textView;
             EditorFormatMap = editorFormatMapService.GetEditorFormatMap(textView);

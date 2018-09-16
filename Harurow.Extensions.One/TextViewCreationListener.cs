@@ -23,7 +23,7 @@ namespace Harurow.Extensions.One
         public void TextViewCreated(IWpfTextView textView)
         {
             // ReSharper disable once ObjectCreationAsStatement
-            new RightMarginService(textView, EditorFormatMapService);
+            new HarurowExtensionOneService(textView, EditorFormatMapService);
         }
     }
 }

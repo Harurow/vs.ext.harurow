@@ -56,7 +56,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdornmentServices\RightMarginService.cs" />
+    <Compile Include="AdornmentServices\HarurowExtensionOneService.cs" />
     <Compile Include="Extensions\AdornmentLayerExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\EditorFormatMapExtensions.cs" />
