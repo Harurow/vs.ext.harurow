@@ -1,30 +1,20 @@
 ﻿using System;
 using System.Linq;
-using Harurow.Extensions.Adornments;
-using Harurow.Extensions.Adornments.TextViewLines;
+using Harurow.Extensions.One.Adornments.LineAdornments;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.RedundantWhiteSpace.Adornments
+namespace Harurow.Extensions.One.Adornments
 {
     internal sealed class RedundantWhiteSpaceAdornment : IAdornment
     {
         private IWpfTextView TextView { get; }
+        private ILineAdornment LineAdornment { get; }
 
-        private ITextViewLineAdornment RedundantWhiteSpace { get; }
-        private IDisposable DocumentLineBreakDisposer { get; set; }
-
-        public RedundantWhiteSpaceAdornment(IWpfTextView textView, ITextViewLineAdornment redundantWhiteSpace)
+        public RedundantWhiteSpaceAdornment(IWpfTextView textView, ILineAdornment lineAdornment)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
-
-            RedundantWhiteSpace = redundantWhiteSpace ?? throw new ArgumentNullException(nameof(redundantWhiteSpace));
-        }
-
-        public void Dispose()
-        {
-            DocumentLineBreakDisposer?.Dispose();
-            DocumentLineBreakDisposer = null;
+            LineAdornment = lineAdornment ?? throw new ArgumentNullException(nameof(lineAdornment));
         }
 
         public void OnInitialized()
@@ -39,9 +29,14 @@ namespace Harurow.Extensions.RedundantWhiteSpace.Adornments
                 .ForEach(AddAdornment);
         }
 
+        public void CleanUp()
+        {
+            LineAdornment.CleanUp();
+        }
+
         private void AddAdornment(ITextViewLine line)
         {
-            RedundantWhiteSpace.AddAdornment(line);
+            LineAdornment.AddAdornment(line);
         }
     }
 }

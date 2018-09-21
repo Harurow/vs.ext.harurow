@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace Harurow.Extensions.One
 {
+    // HACK: サービスを追加する
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("text")]
     [TextViewRole(PredefinedTextViewRoles.Document)]

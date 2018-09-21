@@ -17,7 +17,7 @@ namespace Harurow.Extensions.LineBreak.Adornments.TextViewLines
             Painter = painter ?? throw new ArgumentNullException(nameof(painter));
         }
 
-        public void AddAdronment(ITextViewLine line)
+        public void AddAdornment(ITextViewLine line)
         {
             var start = line.End.Position;
             var end = line.EndIncludingLineBreak.Position;

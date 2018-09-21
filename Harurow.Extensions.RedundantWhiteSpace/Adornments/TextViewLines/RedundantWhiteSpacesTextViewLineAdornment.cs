@@ -5,18 +5,18 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace Harurow.Extensions.RedundantWhiteSpace.Adornments.TextViewLines
 {
-    internal class RedundantWhiteSpacesTextViewLineAdronment : ITextViewLineAdornment
+    internal class RedundantWhiteSpacesTextViewLineAdornment : ITextViewLineAdornment
     {
         private IWpfTextView TextView { get; }
         private RedundantWhiteSpacePainter Painter { get; }
 
-        public RedundantWhiteSpacesTextViewLineAdronment(IWpfTextView textView, RedundantWhiteSpacePainter painter)
+        public RedundantWhiteSpacesTextViewLineAdornment(IWpfTextView textView, RedundantWhiteSpacePainter painter)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             Painter = painter ?? throw new ArgumentNullException(nameof(painter));
         }
 
-        public void AddAdronment(ITextViewLine line)
+        public void AddAdornment(ITextViewLine line)
         {
             var text = TextView.TextSnapshot;
             var eof = text.Length == line.End.Position;

@@ -4,6 +4,6 @@ namespace Harurow.Extensions.Adornments.TextViewLines
 {
     public interface ITextViewLineAdornment
     {
-        void AddAdronment(ITextViewLine line);
+        void AddAdornment(ITextViewLine line);
     }
 }

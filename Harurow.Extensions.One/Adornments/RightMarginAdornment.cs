@@ -12,16 +12,16 @@ namespace Harurow.Extensions.One.Adornments
         private IWpfTextView TextView { get; }
         private IAdornmentLayer AdornmentLayer { get; }
         private int RightMargin { get; }
-        private Brush RightMarginBrush { get; }
+        private Brush Brush { get; }
 
-        private Image RightMarginImage { get; set; }
+        private Image Image { get; set; }
 
         public RightMarginAdornment(IWpfTextView textView, IAdornmentLayer layer, int rightMargin, Brush brush)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             AdornmentLayer = layer ?? throw new ArgumentNullException(nameof(layer));
             RightMargin = rightMargin;
-            RightMarginBrush = brush;
+            Brush = brush;
         }
 
         public void OnInitialized()
@@ -42,39 +42,39 @@ namespace Harurow.Extensions.One.Adornments
 
             if (e.NewViewState.ViewportRight != e.OldViewState.ViewportRight)
             {
-                Canvas.SetLeft(RightMarginImage, CalcLeft());
+                Canvas.SetLeft(Image, CalcLeft());
             }
 
             if (e.NewViewState.ViewportTop != e.OldViewState.ViewportTop)
             {
-                Canvas.SetTop(RightMarginImage, TextView.ViewportTop);
+                Canvas.SetTop(Image, TextView.ViewportTop);
             }
         }
 
         public void CleanUp()
         {
-            if (RightMarginImage != null)
+            if (Image != null)
             {
-                AdornmentLayer.RemoveAdornment(RightMarginImage);
-                RightMarginImage = null;
+                AdornmentLayer.RemoveAdornment(Image);
+                Image = null;
             }
         }
 
         private void CreateRightMargin()
         {
-            RightMarginImage = CreateRightMarginImage();
+            Image = CreateImage();
 
-            Canvas.SetTop(RightMarginImage, TextView.ViewportTop);
-            Canvas.SetLeft(RightMarginImage, CalcLeft());
+            Canvas.SetTop(Image, TextView.ViewportTop);
+            Canvas.SetLeft(Image, CalcLeft());
 
-            AdornmentLayer.AddAdornment(null, RightMarginImage);
+            AdornmentLayer.AddAdornment(null, Image);
         }
 
-        private Image CreateRightMarginImage()
+        private Image CreateImage()
         {
             var rect = new Rect(0, 0, TextView.ViewportWidth, TextView.ViewportHeight);
             var geometry = new RectangleGeometry(rect).FreezeAnd();
-            var image = geometry.ToImage(RightMarginBrush, null);
+            var image = geometry.ToImage(Brush, null);
             Panel.SetZIndex(image, int.MinValue);
             return image;
         }

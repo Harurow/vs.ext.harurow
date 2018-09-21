@@ -58,7 +58,7 @@
     <Compile Include="AdornmentLayers\RedundantWhiteSpaceAdornmentLayer.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaceAdornment.cs" />
     <Compile Include="Adornments\TextViewLines\RedundantWhiteSpacePainter.cs" />
-    <Compile Include="Adornments\TextViewLines\RedundantWhiteSpacesTextViewLineAdronment.cs" />
+    <Compile Include="Adornments\TextViewLines\RedundantWhiteSpacesTextViewLineAdornment.cs" />
     <Compile Include="Services\RedundantWhiteSpaceService.cs" />
     <Compile Include="RedundantWhiteSpaceServiceProvider.cs" />
     <Compile Include="RedundantWhiteSpaceMode.cs" />

@@ -19,7 +19,7 @@ namespace Harurow.Extensions.LineBreak.Adornments.TextViewLines
             DocumentLineBreakKind = LineBreakKind.Unknown;
         }
 
-        public void AddAdronment(ITextViewLine line)
+        public void AddAdornment(ITextViewLine line)
         {
             var lineBreakKind = line.GetLineBreakKind(TextView);
 
@@ -41,7 +41,7 @@ namespace Harurow.Extensions.LineBreak.Adornments.TextViewLines
         private sealed class EmptyHighlightLineBreakWarningTextViewLineAdornment
             : IHighlightLineBreakWarningTextViewLineAdornment
         {
-            public void AddAdronment(ITextViewLine line)
+            public void AddAdornment(ITextViewLine line)
             {
             }
 

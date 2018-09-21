@@ -61,8 +61,8 @@ namespace Harurow.Extensions.LineBreak.Adornments
 
         private void AddAronment(ITextViewLine line)
         {
-            VisibleLineBreak.AddAdronment(line);
-            HighlightLineBreakWarning.AddAdronment(line);
+            VisibleLineBreak.AddAdornment(line);
+            HighlightLineBreakWarning.AddAdornment(line);
         }
     }
 }

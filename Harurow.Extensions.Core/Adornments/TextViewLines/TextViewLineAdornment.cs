@@ -13,7 +13,7 @@ namespace Harurow.Extensions.Adornments.TextViewLines
 
         private sealed class EmptyTextViewLineAdornment : ITextViewLineAdornment
         {
-            public void AddAdronment(ITextViewLine line)
+            public void AddAdornment(ITextViewLine line)
             {
             }
         }

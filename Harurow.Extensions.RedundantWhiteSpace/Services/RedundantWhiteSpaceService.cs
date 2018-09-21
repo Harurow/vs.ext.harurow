@@ -94,7 +94,7 @@ namespace Harurow.Extensions.RedundantWhiteSpace.Services
             var whitespace = TextView.Options.GetOptionValue(new UseVisibleWhitespace().Key);
 
             var redundantWhiteSpace = IsEnabled(Options.RedundantWhiteSpacesHighlightMode, whitespace)
-                ? new RedundantWhiteSpacesTextViewLineAdronment(TextView, CreateRedundantWhiteSpacesPainter())
+                ? new RedundantWhiteSpacesTextViewLineAdornment(TextView, CreateRedundantWhiteSpacesPainter())
                 : TextViewLineAdornment.Empty;
 
             RedundantWhiteSpace?.Dispose();
