@@ -1,6 +1,6 @@
 ﻿using System;
 using Harurow.Extensions.One.Adornments;
-using Harurow.Extensions.One.Adornments.RedundantWhiteSpace;
+using Harurow.Extensions.One.Adornments.RedundantWhiteSpaces;
 using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Text.Editor;
 

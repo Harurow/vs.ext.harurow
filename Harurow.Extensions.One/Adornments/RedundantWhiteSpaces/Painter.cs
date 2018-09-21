@@ -4,7 +4,7 @@ using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpace
+namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpaces
 {
     internal class Painter
     {

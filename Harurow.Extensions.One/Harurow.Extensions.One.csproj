@@ -62,8 +62,8 @@
     <Compile Include="Adornments\LineBreakKind.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaceAdornment.cs" />
     <Compile Include="Adornments\ILineAdornment.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpace\Painter.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpace\LineAdornment.cs" />
+    <Compile Include="Adornments\RedundantWhiteSpaces\Painter.cs" />
+    <Compile Include="Adornments\RedundantWhiteSpaces\LineAdornment.cs" />
     <Compile Include="Extensions\AdornmentLayerExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\EditorFormatMapExtensions.cs" />

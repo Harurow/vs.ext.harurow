@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpace
+namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpaces
 {
     internal class LineAdornment : ILineAdornment
     {
