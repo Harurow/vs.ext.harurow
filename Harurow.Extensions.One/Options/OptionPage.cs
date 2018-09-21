@@ -39,8 +39,13 @@ namespace Harurow.Extensions.One.Options
         [DefaultValue(OptionValues.Defaults.LineBreakWarningMode)]
         public LineBreakMode LineBreakWarningMode { get; set; } = OptionValues.Defaults.LineBreakWarningMode;
 
-        #endregion
+        [Category("Lock")]
+        [DisplayName("マウス・ホイールのズームを抑制")]
+        [Description("有効にするとマウスホイールで拡大・縮小ができないようになります")]
+        [DefaultValue(OptionValues.Defaults.IsLockedWheelZoom)]
+        public bool IsLockedWheelZoom { get; set; } = OptionValues.Defaults.IsLockedWheelZoom;
 
+        #endregion
 
         public override void LoadSettingsFromStorage()
         {
@@ -52,13 +57,11 @@ namespace Harurow.Extensions.One.Options
             #region load options
 
             // HACK: 6.2. ロードしたオプション値をダイアログへ設定する
-
             RightMargin = opt.RightMargin;
-
             RedundantWhiteSpaceMode = opt.RedundantWhiteSpaceMode;
-
             VisibleLineBreakMode = opt.VisibleLineBreakMode;
             LineBreakWarningMode = opt.LineBreakWarningMode;
+            IsLockedWheelZoom = opt.IsLockedWheelZoom;
 
             #endregion
         }
@@ -79,6 +82,7 @@ namespace Harurow.Extensions.One.Options
                 RedundantWhiteSpaceMode = RedundantWhiteSpaceMode,
                 VisibleLineBreakMode = VisibleLineBreakMode,
                 LineBreakWarningMode = LineBreakWarningMode,
+                IsLockedWheelZoom = IsLockedWheelZoom,
             };
 
             #endregion
@@ -111,6 +115,9 @@ namespace Harurow.Extensions.One.Options
 
             if (oldOpt.LineBreakWarningMode != newOpt.LineBreakWarningMode)
                 yield return nameof(LineBreakWarningMode);
+
+            if (oldOpt.IsLockedWheelZoom != newOpt.IsLockedWheelZoom)
+                yield return nameof(IsLockedWheelZoom);
 
             #endregion
         }

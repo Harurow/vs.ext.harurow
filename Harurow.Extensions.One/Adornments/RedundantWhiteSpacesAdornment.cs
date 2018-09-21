@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace Harurow.Extensions.One.Adornments
 {
-    internal sealed class RedundantWhiteSpaceAdornment : IAdornment
+    internal sealed class RedundantWhiteSpacesAdornment : IAdornment
     {
         private IWpfTextView TextView { get; }
         private ILineAdornment LineAdornment { get; }
 
-        public RedundantWhiteSpaceAdornment(IWpfTextView textView, ILineAdornment lineAdornment)
+        public RedundantWhiteSpacesAdornment(IWpfTextView textView, ILineAdornment lineAdornment)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             LineAdornment = lineAdornment ?? throw new ArgumentNullException(nameof(lineAdornment));

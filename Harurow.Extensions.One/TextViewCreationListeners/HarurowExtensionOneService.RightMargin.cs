@@ -1,6 +1,6 @@
 ﻿using Harurow.Extensions.One.Adornments;
 
-namespace Harurow.Extensions.One.AdornmentServices
+namespace Harurow.Extensions.One.TextViewCreationListeners
 {
     partial class HarurowExtensionOneService
     {

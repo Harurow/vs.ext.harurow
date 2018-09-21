@@ -11,6 +11,7 @@ namespace Harurow.Extensions.One.Options
         RedundantWhiteSpaceMode RedundantWhiteSpaceMode { get; set; }
         LineBreakMode VisibleLineBreakMode { get; set; }
         LineBreakMode LineBreakWarningMode { get; set; }
+        bool IsLockedWheelZoom { get; set; }
 
         #endregion
 
@@ -27,12 +28,10 @@ namespace Harurow.Extensions.One.Options
 
             // HACK: 2. デフォルト値を定義する
             public const int RightMargin = 120;
-
-            public const RedundantWhiteSpaceMode RedundantWhiteSpaceMode =
-                Options.RedundantWhiteSpaceMode.UseVisibleWhiteSpace;
-
+            public const RedundantWhiteSpaceMode RedundantWhiteSpaceMode = Options.RedundantWhiteSpaceMode.UseVisibleWhiteSpace;
             public const LineBreakMode VisibleLineBreakMode = LineBreakMode.UseVisibleWhiteSpace;
             public const LineBreakMode LineBreakWarningMode = LineBreakMode.True;
+            public const bool IsLockedWheelZoom = true;
 
             #endregion
         }
@@ -44,6 +43,7 @@ namespace Harurow.Extensions.One.Options
         public RedundantWhiteSpaceMode RedundantWhiteSpaceMode { get; set; }
         public LineBreakMode VisibleLineBreakMode { get; set; }
         public LineBreakMode LineBreakWarningMode { get; set; }
+        public bool IsLockedWheelZoom { get; set; }
 
         #endregion
 
@@ -54,16 +54,12 @@ namespace Harurow.Extensions.One.Options
             #region Load
 
             // HACK: 4. オプションをロードする
-            RightMargin = store.GetPropertyValue(
-                nameof(RightMargin), Defaults.RightMargin);
-
-            RedundantWhiteSpaceMode = store.GetPropertyValue(
-                nameof(RedundantWhiteSpaceMode), Defaults.RedundantWhiteSpaceMode);
-
-            VisibleLineBreakMode = store.GetPropertyValue(
-                nameof(VisibleLineBreakMode), Defaults.VisibleLineBreakMode);
-            LineBreakWarningMode = store.GetPropertyValue(
-                nameof(LineBreakWarningMode), Defaults.LineBreakWarningMode);
+            RightMargin = store.GetPropertyValue(nameof(RightMargin), Defaults.RightMargin);
+            RedundantWhiteSpaceMode = store.GetPropertyValue(nameof(RedundantWhiteSpaceMode),
+                Defaults.RedundantWhiteSpaceMode);
+            VisibleLineBreakMode = store.GetPropertyValue(nameof(VisibleLineBreakMode), Defaults.VisibleLineBreakMode);
+            LineBreakWarningMode = store.GetPropertyValue(nameof(LineBreakWarningMode), Defaults.LineBreakWarningMode);
+            IsLockedWheelZoom = store.GetPropertyValue(nameof(IsLockedWheelZoom), Defaults.IsLockedWheelZoom);
 
             #endregion
         }
@@ -76,11 +72,10 @@ namespace Harurow.Extensions.One.Options
 
             // HACK: 5. オプションをセーブする
             store.SetPropertyValue(nameof(RightMargin), RightMargin);
-
             store.SetPropertyValue(nameof(RedundantWhiteSpaceMode), RedundantWhiteSpaceMode);
-
             store.SetPropertyValue(nameof(VisibleLineBreakMode), VisibleLineBreakMode);
             store.SetPropertyValue(nameof(LineBreakWarningMode), LineBreakWarningMode);
+            store.SetPropertyValue(nameof(IsLockedWheelZoom), IsLockedWheelZoom);
 
             #endregion
         }

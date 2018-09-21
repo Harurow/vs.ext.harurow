@@ -56,11 +56,19 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdornmentServices\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
-    <Compile Include="AdornmentServices\HarurowExtensionOneService.RightMargin.cs" />
-    <Compile Include="AdornmentServices\HarurowExtensionOneService.cs" />
+    <Compile Include="TextViewCreationListeners\HarurowExtensionOneService.LineBreaks.cs" />
+    <Compile Include="TextViewCreationListeners\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
+    <Compile Include="TextViewCreationListeners\HarurowExtensionOneService.IsLockedWheelZoom.cs" />
+    <Compile Include="TextViewCreationListeners\HarurowExtensionOneService.RightMargin.cs" />
+    <Compile Include="TextViewCreationListeners\HarurowExtensionOneService.cs" />
+    <Compile Include="Adornments\LineBreaksAdornment.cs" />
     <Compile Include="Adornments\LineBreakKind.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpaceAdornment.cs" />
+    <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\TextViewLineExtensions.cs" />
+    <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\Painter.cs" />
+    <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\VisibleLineBreakLineAdornment.cs" />
+    <Compile Include="Adornments\LineBreaks\WarningLineBreaks\WarningLineBreakLineAdornment.cs" />
+    <Compile Include="Adornments\LineBreaks\WarningLineBreaks\Painter.cs" />
+    <Compile Include="Adornments\RedundantWhiteSpacesAdornment.cs" />
     <Compile Include="Adornments\ILineAdornment.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaces\Painter.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaces\LineAdornment.cs" />
@@ -72,6 +80,8 @@
     <Compile Include="Extensions\GeometryExtensions.cs" />
     <Compile Include="Adornments\IAdornment.cs" />
     <Compile Include="Adornments\RightMarginAdornment.cs" />
+    <Compile Include="Extensions\SnapshotSpanExtensions.cs" />
+    <Compile Include="Extensions\TextViewLineExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
     <Compile Include="Extensions\WpfTextViewExtensions.cs" />
     <Compile Include="Options\ColorDefinition.cs" />

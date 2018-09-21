@@ -4,14 +4,15 @@ using Harurow.Extensions.One.Adornments.RedundantWhiteSpaces;
 using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.AdornmentServices
+namespace Harurow.Extensions.One.TextViewCreationListeners
 {
     partial class HarurowExtensionOneService
     {
-        private RedundantWhiteSpaceAdornment RedundantWhiteSpaceAdornment { get; set; }
+        private RedundantWhiteSpacesAdornment RedundantWhiteSpaceAdornment { get; set; }
 
         private void CreateRedundantWhiteSpacesAdornment()
         {
+            #region inner functions
             Painter CreatePainter()
             {
                 var layer = TextView.GetAfterSelectionAdornmentLayer();
@@ -33,13 +34,14 @@ namespace Harurow.Extensions.One.AdornmentServices
                         throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
                 }
             }
+            #endregion
 
             var useWhitespace = TextView.Options.GetOptionValue(new UseVisibleWhitespace().Key);
 
             if (IsEnabled(Values.RedundantWhiteSpaceMode, useWhitespace))
             {
                 var lineAdornment = new LineAdornment(TextView, CreatePainter());
-                RedundantWhiteSpaceAdornment = new RedundantWhiteSpaceAdornment(TextView, lineAdornment);
+                RedundantWhiteSpaceAdornment = new RedundantWhiteSpacesAdornment(TextView, lineAdornment);
                 RedundantWhiteSpaceAdornment.OnInitialized();
             }
             else
