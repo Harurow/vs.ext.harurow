@@ -4,16 +4,16 @@ using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.Adornments.LineAdornments
+namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpace
 {
-    internal class RedundantWhiteSpacePainter
+    internal class Painter
     {
         private IWpfTextView TextView { get; }
         private IAdornmentLayer AdornmentLayer { get; }
         private Brush Brush { get; }
         private Pen Pen { get; }
 
-        public RedundantWhiteSpacePainter(IWpfTextView textView, IAdornmentLayer adornmentLayer, Brush brush, Pen pen)
+        public Painter(IWpfTextView textView, IAdornmentLayer adornmentLayer, Brush brush, Pen pen)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             AdornmentLayer = adornmentLayer ?? throw new ArgumentNullException(nameof(adornmentLayer));
@@ -34,12 +34,12 @@ namespace Harurow.Extensions.One.Adornments.LineAdornments
             var image = geometry.ToImage(Brush, Pen)
                 .SetTopLeft(geometry.Bounds.Location);
 
-            AdornmentLayer.AddAdornment(span, typeof(RedundantWhiteSpacePainter), image);
+            AdornmentLayer.AddAdornment(span, typeof(Painter), image);
         }
 
         public void CleanUp()
         {
-            AdornmentLayer.RemoveAdornmentsByTag(typeof(RedundantWhiteSpacePainter));
+            AdornmentLayer.RemoveAdornmentsByTag(typeof(Painter));
         }
     }
 }

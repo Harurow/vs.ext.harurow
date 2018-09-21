@@ -45,12 +45,14 @@ namespace Harurow.Extensions.One.AdornmentServices
                 IsInitialized = true;
             }
 
+            // HACK: 9.1. OnLayoutChanged
             RightMarginAdornment.OnLayoutChanged(sender, e);
             RedundantWhiteSpaceAdornment?.OnLayoutChanged(sender, e);
         }
 
         private void OnTextViewOptionChanged(object sender, EditorOptionChangedEventArgs e)
         {
+            // HACK: 9.4. OnTextViewOptionChanged. If need it.
             if (e.OptionId == UseVisibleWhitespace.Key.Name)
             {
                 if (IsInitialized)
@@ -91,12 +93,14 @@ namespace Harurow.Extensions.One.AdornmentServices
 
         private void CleanUp()
         {
+            // HACK: 9.2. CleanUp
             RightMarginAdornment?.CleanUp();
             RedundantWhiteSpaceAdornment?.CleanUp();
         }
 
         private void CreateAdornment()
         {
+            // HACK: 9.3. CreateAdornment
             CreateRightMarginAdornment();
             CreateRedundantWhiteSpacesAdornment();
         }

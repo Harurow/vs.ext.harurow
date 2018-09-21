@@ -1,6 +1,7 @@
 ﻿using System;
 using Harurow.Extensions.One.Adornments;
-using Harurow.Extensions.One.Adornments.LineAdornments;
+using Harurow.Extensions.One.Adornments.RedundantWhiteSpace;
+using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.AdornmentServices
@@ -11,10 +12,10 @@ namespace Harurow.Extensions.One.AdornmentServices
 
         private void CreateRedundantWhiteSpacesAdornment()
         {
-            RedundantWhiteSpacePainter CreatePainter()
+            Painter CreatePainter()
             {
                 var layer = TextView.GetAfterSelectionAdornmentLayer();
-                return new RedundantWhiteSpacePainter(TextView, layer,
+                return new Painter(TextView, layer,
                     Resources.RedundantWhiteSpacesBrush, Resources.RedundantWhiteSpacesPen);
             }
 
@@ -37,7 +38,7 @@ namespace Harurow.Extensions.One.AdornmentServices
 
             if (IsEnabled(Values.RedundantWhiteSpaceMode, useWhitespace))
             {
-                var lineAdornment = new RedundantWhiteSpacesLineAdornment(TextView, CreatePainter());
+                var lineAdornment = new LineAdornment(TextView, CreatePainter());
                 RedundantWhiteSpaceAdornment = new RedundantWhiteSpaceAdornment(TextView, lineAdornment);
                 RedundantWhiteSpaceAdornment.OnInitialized();
             }

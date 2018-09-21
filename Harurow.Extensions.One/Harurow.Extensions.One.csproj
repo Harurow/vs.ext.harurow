@@ -59,10 +59,11 @@
     <Compile Include="AdornmentServices\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
     <Compile Include="AdornmentServices\HarurowExtensionOneService.RightMargin.cs" />
     <Compile Include="AdornmentServices\HarurowExtensionOneService.cs" />
+    <Compile Include="Adornments\LineBreakKind.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaceAdornment.cs" />
-    <Compile Include="Adornments\LineAdornments\ILineAdornment.cs" />
-    <Compile Include="Adornments\LineAdornments\RedundantWhiteSpacePainter.cs" />
-    <Compile Include="Adornments\LineAdornments\RedundantWhiteSpacesLineAdornment.cs" />
+    <Compile Include="Adornments\ILineAdornment.cs" />
+    <Compile Include="Adornments\RedundantWhiteSpace\Painter.cs" />
+    <Compile Include="Adornments\RedundantWhiteSpace\LineAdornment.cs" />
     <Compile Include="Extensions\AdornmentLayerExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\EditorFormatMapExtensions.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Extensions\WpfTextViewExtensions.cs" />
     <Compile Include="Options\ColorDefinition.cs" />
     <Compile Include="Options\ColorDefinitions.cs" />
+    <Compile Include="Options\LineBreakMode.cs" />
     <Compile Include="Options\OptionEventArgs.cs" />
     <Compile Include="Options\OptionObserver.cs" />
     <Compile Include="Options\OptionPage.cs">
@@ -85,7 +87,7 @@
     <Compile Include="Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Options\StoreManager.cs" />
-    <Compile Include="RedundantWhiteSpaceMode.cs" />
+    <Compile Include="Options\RedundantWhiteSpaceMode.cs" />
     <Compile Include="TextAdornmentLayerDefinitions.cs" />
     <Compile Include="TextViewCreationListener.cs" />
   </ItemGroup>
@@ -257,6 +259,10 @@
     <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.15.8.145\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ja-JP\extension.vsixlangpack" />
+    <Content Include="ja-JP\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

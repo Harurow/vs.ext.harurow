@@ -1,4 +1,4 @@
-﻿namespace Harurow.Extensions.One
+﻿namespace Harurow.Extensions.One.Options
 {
     public enum RedundantWhiteSpaceMode
     {

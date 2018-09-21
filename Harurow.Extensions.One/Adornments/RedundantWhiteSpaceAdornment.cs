@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Harurow.Extensions.One.Adornments.LineAdornments;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 

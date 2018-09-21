@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments.LineAdornments
+namespace Harurow.Extensions.One.Adornments
 {
     public interface ILineAdornment
     {

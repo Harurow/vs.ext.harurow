@@ -2,14 +2,14 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments.LineAdornments
+namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpace
 {
-    internal class RedundantWhiteSpacesLineAdornment : ILineAdornment
+    internal class LineAdornment : ILineAdornment
     {
         private IWpfTextView TextView { get; }
-        private RedundantWhiteSpacePainter Painter { get; }
+        private Painter Painter { get; }
 
-        public RedundantWhiteSpacesLineAdornment(IWpfTextView textView, RedundantWhiteSpacePainter painter)
+        public LineAdornment(IWpfTextView textView, Painter painter)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             Painter = painter ?? throw new ArgumentNullException(nameof(painter));
