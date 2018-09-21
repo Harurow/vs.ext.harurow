@@ -56,6 +56,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdornmentServices\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
+    <Compile Include="AdornmentServices\HarurowExtensionOneService.RightMargin.cs" />
     <Compile Include="AdornmentServices\HarurowExtensionOneService.cs" />
     <Compile Include="Adornments\RedundantWhiteSpaceAdornment.cs" />
     <Compile Include="Adornments\LineAdornments\ILineAdornment.cs" />
