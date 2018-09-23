@@ -3,7 +3,7 @@ using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.TextViewCreationListeners
+namespace Harurow.Extensions.One.ListenerServices
 {
     // HACK: 5. イベントと紐づける
     public partial class HarurowExtensionOneService
@@ -28,11 +28,11 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
             Resources = new OptionResources(EditorFormatMap);
 
             TextView.LayoutChanged += OnLayoutChanged;
+            TextView.Caret.PositionChanged += OnPositionChanged;
             TextView.Options.OptionChanged += OnTextViewOptionChanged;
-            TextView.Closed += OnClosed;
-
             OptionObserver.OptionChanged += OnOptionChanged;
             EditorFormatMap.FormatMappingChanged += OnFormatMappingChanged;
+            TextView.Closed += OnClosed;
 
             UseVisibleWhitespace = new UseVisibleWhitespace();
 
@@ -45,6 +45,13 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
             UpdateIsLockedWheelZoom();
         }
 
+        private void OnPositionChanged(object sender, CaretPositionChangedEventArgs e)
+        {
+            // HACK: 5.2. OnPositionChanged. ポジションの変更イベント
+            LineIndicator?.OnPositionChanged(sender, e);
+            ColumnIndicator?.OnPositionChanged(sender, e);
+        }
+
         private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
             if (!IsInitialized)
@@ -54,15 +61,17 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
                 IsInitialized = true;
             }
 
-            // HACK: 5.2. OnLayoutChanged. レイアウトの変更イベント
-            RightMarginAdornment.OnLayoutChanged(sender, e);
+            // HACK: 5.3. OnLayoutChanged. レイアウトの変更イベント
+            RightMarginAdornment?.OnLayoutChanged(sender, e);
             RedundantWhiteSpaceAdornment?.OnLayoutChanged(sender, e);
             LineBreaksAdornment?.OnLayoutChanged(sender, e);
+            LineIndicator?.OnLayoutChanged(sender, e);
+            ColumnIndicator?.OnLayoutChanged(sender, e);
         }
 
         private void OnTextViewOptionChanged(object sender, EditorOptionChangedEventArgs e)
         {
-            // HACK: 5.3. OnTextViewOptionChanged. オプション(Visual Studio)の変更イベント
+            // HACK: 5.4. OnTextViewOptionChanged. オプション(Visual Studio)の変更イベント
             if (e.OptionId == UseVisibleWhitespace.Key.Name)
             {
                 if (IsInitialized)
@@ -77,14 +86,17 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
 
         private void OnClosed(object sender, EventArgs e)
         {
-            TextView.Closed -= OnClosed;
             TextView.LayoutChanged -= OnLayoutChanged;
+            TextView.Caret.PositionChanged -= OnPositionChanged;
+            TextView.Options.OptionChanged -= OnTextViewOptionChanged;
             OptionObserver.OptionChanged -= OnOptionChanged;
+            EditorFormatMap.FormatMappingChanged -= OnFormatMappingChanged;
+            TextView.Closed -= OnClosed;
         }
 
         private void OnOptionChanged(object sender, OptionEventArgs e)
         {
-            // HACK: 5.4. OnOptionChanged. オプション(Custom)の変更イベント
+            // HACK: 5.5. OnOptionChanged. オプション(Custom)の変更イベント
             Values = e.NewValues;
             ReBuild();
             UpdateIsLockedWheelZoom();
@@ -92,7 +104,7 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
 
         private void OnFormatMappingChanged(object sender, FormatItemsEventArgs e)
         {
-            // HACK: 5.5. OnFormatMappingChanged. オプション(色)の変更イベント
+            // HACK: 5.6. OnFormatMappingChanged. オプション(色)の変更イベント
             Resources.CreateResource();
             ReBuild();
         }
@@ -108,18 +120,27 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
 
         private void CleanUp()
         {
-            // HACK: 5.6. CleanUp
+            // HACK: 5.7. CleanUp
             RightMarginAdornment?.CleanUp();
             RedundantWhiteSpaceAdornment?.CleanUp();
             LineBreaksAdornment?.CleanUp();
+            LineIndicator?.CleanUp();
+            ColumnIndicator?.CleanUp();
+
+            RightMarginAdornment = null;
+            RedundantWhiteSpaceAdornment = null;
+            LineBreaksAdornment = null;
+            LineIndicator = null;
+            ColumnIndicator = null;
         }
 
         private void CreateAdornment()
         {
-            // HACK: 5.7. CreateAdornment
+            // HACK: 5.8. CreateAdornment
             CreateRightMarginAdornment();
             CreateRedundantWhiteSpacesAdornment();
             CreateLineBreaksAdornment();
+            CreateCaretIndicatorAdornment();
         }
     }
 }

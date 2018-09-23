@@ -5,9 +5,9 @@ using System.Windows.Media;
 using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.Adornments
+namespace Harurow.Extensions.One.Adornments.RightMargin
 {
-    internal sealed class RightMarginAdornment : IAdornment
+    internal sealed class TextViewAdornment : ITextViewAdornment
     {
         private IWpfTextView TextView { get; }
         private IAdornmentLayer AdornmentLayer { get; }
@@ -16,7 +16,7 @@ namespace Harurow.Extensions.One.Adornments
 
         private Image Image { get; set; }
 
-        public RightMarginAdornment(IWpfTextView textView, IAdornmentLayer layer, int rightMargin, Brush brush)
+        public TextViewAdornment(IWpfTextView textView, IAdornmentLayer layer, int rightMargin, Brush brush)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             AdornmentLayer = layer ?? throw new ArgumentNullException(nameof(layer));
@@ -26,7 +26,7 @@ namespace Harurow.Extensions.One.Adornments
 
         public void OnInitialized()
         {
-            CreateRightMargin();
+            CreateVisuals();
         }
 
         public void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
@@ -36,7 +36,7 @@ namespace Harurow.Extensions.One.Adornments
                 e.NewViewState.ViewportHeight != e.OldViewState.ViewportHeight)
             {
                 CleanUp();
-                CreateRightMargin();
+                CreateVisuals();
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace Harurow.Extensions.One.Adornments
             }
         }
 
-        private void CreateRightMargin()
+        private void CreateVisuals()
         {
             Image = CreateImage();
 

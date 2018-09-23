@@ -7,12 +7,12 @@ using Microsoft.VisualStudio.Shell;
 
 namespace Harurow.Extensions.One.Options
 {
-    // HACK: 6. オプションを増やす
+    // HACK: 2. オプションをページに追加する
     internal sealed class OptionPage : DialogPage
     {
         #region option page rows
 
-        // HACK: 6.1. オプションページの行を追加する
+        // HACK: 2.1. オプションページの行を追加する
 
         [Category("RightMargin")]
         [DisplayName("推奨桁数")]
@@ -39,7 +39,19 @@ namespace Harurow.Extensions.One.Options
         [DefaultValue(OptionValues.Defaults.LineBreakWarningMode)]
         public LineBreakMode LineBreakWarningMode { get; set; } = OptionValues.Defaults.LineBreakWarningMode;
 
-        [Category("Lock")]
+        [Category("CaretIndicator")]
+        [DisplayName("現在行の水平線")]
+        [Description("現在の行の下に水平線を引く")]
+        [DefaultValue(OptionValues.Defaults.IsEnabledLineIndicator)]
+        public bool IsEnabledLineIndicator { get; set; } = OptionValues.Defaults.IsEnabledLineIndicator;
+
+        [Category("CaretIndicator")]
+        [DisplayName("現在列の垂直線")]
+        [Description("現在の列の左に垂直線を引く")]
+        [DefaultValue(OptionValues.Defaults.IsEnabledColumnIndicator)]
+        public bool IsEnabledColumnIndicator { get; set; } = OptionValues.Defaults.IsEnabledColumnIndicator;
+
+        [Category("MouseBehavior")]
         [DisplayName("マウス・ホイールのズームを抑制")]
         [Description("有効にするとマウスホイールで拡大・縮小ができないようになります")]
         [DefaultValue(OptionValues.Defaults.IsLockedWheelZoom)]
@@ -56,11 +68,13 @@ namespace Harurow.Extensions.One.Options
 
             #region load options
 
-            // HACK: 6.2. ロードしたオプション値をダイアログへ設定する
+            // HACK: 2.2. ロードしたオプション値をダイアログへ設定する
             RightMargin = opt.RightMargin;
             RedundantWhiteSpaceMode = opt.RedundantWhiteSpaceMode;
             VisibleLineBreakMode = opt.VisibleLineBreakMode;
             LineBreakWarningMode = opt.LineBreakWarningMode;
+            IsEnabledLineIndicator = opt.IsEnabledLineIndicator;
+            IsEnabledColumnIndicator = opt.IsEnabledColumnIndicator;
             IsLockedWheelZoom = opt.IsLockedWheelZoom;
 
             #endregion
@@ -75,13 +89,15 @@ namespace Harurow.Extensions.One.Options
 
             #region save options
 
-            // HACK: 6.3. ダイアログからオプションへ値を設定する
+            // HACK: 2.3. ダイアログからオプションへ値を設定する
             var newOpt = new OptionValues
             {
                 RightMargin = Math.Max(0, Math.Min(RightMargin, 1024)),
                 RedundantWhiteSpaceMode = RedundantWhiteSpaceMode,
                 VisibleLineBreakMode = VisibleLineBreakMode,
                 LineBreakWarningMode = LineBreakWarningMode,
+                IsEnabledLineIndicator = IsEnabledLineIndicator,
+                IsEnabledColumnIndicator = IsEnabledColumnIndicator,
                 IsLockedWheelZoom = IsLockedWheelZoom,
             };
 
@@ -103,7 +119,7 @@ namespace Harurow.Extensions.One.Options
         {
             #region notify changed options
 
-            // HACK: 6.4. 変更のあったオプションを通知する
+            // HACK: 2.4. 変更のあったオプションを通知する
             if (oldOpt.RightMargin != newOpt.RightMargin)
                 yield return nameof(RightMargin);
 
@@ -115,6 +131,12 @@ namespace Harurow.Extensions.One.Options
 
             if (oldOpt.LineBreakWarningMode != newOpt.LineBreakWarningMode)
                 yield return nameof(LineBreakWarningMode);
+
+            if (oldOpt.IsEnabledLineIndicator != newOpt.IsEnabledLineIndicator)
+                yield return nameof(IsEnabledLineIndicator);
+
+            if (oldOpt.IsEnabledColumnIndicator != newOpt.IsEnabledColumnIndicator)
+                yield return nameof(IsEnabledColumnIndicator);
 
             if (oldOpt.IsLockedWheelZoom != newOpt.IsLockedWheelZoom)
                 yield return nameof(IsLockedWheelZoom);

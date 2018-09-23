@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments.LineBreaks.VisibleLineBreaks
+namespace Harurow.Extensions.One.Adornments.LineBreaks
 {
     internal static class TextViewLineExtensions
     {

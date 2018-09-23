@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
-namespace Harurow.Extensions.One
+namespace Harurow.Extensions.One.ListenerServices
 {
     internal sealed class TextAdornmentLayerDefinitions
     {

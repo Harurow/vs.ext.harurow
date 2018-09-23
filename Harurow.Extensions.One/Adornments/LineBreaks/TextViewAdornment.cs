@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq;
-using Harurow.Extensions.One.Adornments.LineBreaks.VisibleLineBreaks;
-using Harurow.Extensions.One.Adornments.LineBreaks.WarningLineBreaks;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments
+namespace Harurow.Extensions.One.Adornments.LineBreaks
 {
-    internal sealed class LineBreaksAdornment : IAdornment
+    using VisibleLineBreakLineAdornment = VisibleLineBreaks.LineAdornment;
+    using WarningLineBreakLineAdornment = WarningLineBreaks.LineAdornment;
+
+    internal sealed class TextViewAdornment : ITextViewAdornment
     {
         private IWpfTextView TextView { get; }
 
         private VisibleLineBreakLineAdornment VisibleLineBreak { get; }
         private WarningLineBreakLineAdornment WarningLineBreak { get; }
 
-        public LineBreaksAdornment(IWpfTextView textView,
+        public TextViewAdornment(IWpfTextView textView,
             VisibleLineBreakLineAdornment visibleLineBreak,
             WarningLineBreakLineAdornment warningLineBreak)
         {

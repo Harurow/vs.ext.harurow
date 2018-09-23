@@ -3,14 +3,14 @@ using System.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
-namespace Harurow.Extensions.One.Adornments
+namespace Harurow.Extensions.One.Adornments.RedundantWhiteSpaces
 {
-    internal sealed class RedundantWhiteSpacesAdornment : IAdornment
+    internal sealed class TextViewAdornment : ITextViewAdornment
     {
         private IWpfTextView TextView { get; }
         private ILineAdornment LineAdornment { get; }
 
-        public RedundantWhiteSpacesAdornment(IWpfTextView textView, ILineAdornment lineAdornment)
+        public TextViewAdornment(IWpfTextView textView, ILineAdornment lineAdornment)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             LineAdornment = lineAdornment ?? throw new ArgumentNullException(nameof(lineAdornment));

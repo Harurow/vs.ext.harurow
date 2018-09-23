@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Harurow.Extensions.One.Commands;
 using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
@@ -10,6 +12,7 @@ namespace Harurow.Extensions.One
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
+    [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82", PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(PackageGuidString)]
     [ProvideOptionPage(typeof(OptionPage), "Harurow", "One", 0, 0, true)]
     [SuppressMessage(
@@ -25,6 +28,10 @@ namespace Harurow.Extensions.One
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            var menuCommandService = (IMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
+
+            // ReSharper disable ObjectCreationAsStatement
+            new SetUtf8WithBomCommand(menuCommandService);
         }
 
         #endregion

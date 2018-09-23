@@ -1,4 +1,4 @@
-﻿namespace Harurow.Extensions.One.Adornments
+﻿namespace Harurow.Extensions.One.Adornments.LineBreaks
 {
     internal enum LineBreakKind
     {

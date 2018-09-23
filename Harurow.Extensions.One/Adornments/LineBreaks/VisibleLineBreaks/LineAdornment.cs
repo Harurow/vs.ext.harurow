@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
 namespace Harurow.Extensions.One.Adornments.LineBreaks.VisibleLineBreaks
 {
-    internal class VisibleLineBreakLineAdornment : ILineAdornment
+    internal class LineAdornment : ILineAdornment
     {
         private IWpfTextView TextView { get; }
         private Painter Painter { get; }
 
-        public VisibleLineBreakLineAdornment(IWpfTextView textView, Painter painter)
+        public LineAdornment(IWpfTextView textView, Painter painter)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
             Painter = painter ?? throw new ArgumentNullException(nameof(painter));

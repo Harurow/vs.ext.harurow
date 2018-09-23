@@ -5,14 +5,14 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace Harurow.Extensions.One.Options
 {
-    // HACK: 7. 色の定義を増やす
+    // HACK: 3. 色の定義を増やす
     internal sealed class ColorDefinitions
     {
         internal sealed class Defaults
         {
             #region default colors
 
-            // HACK: 7.1. デフォルトの色を定義
+            // HACK: 3.1. デフォルトの色を定義
             internal sealed class RightMargin
             {
                 internal static readonly Color Background = Colors.Black;
@@ -35,6 +35,16 @@ namespace Harurow.Extensions.One.Options
                 internal static readonly Color Background = Colors.Red;
             }
 
+            internal sealed class LineIndicator
+            {
+                internal static readonly Color Foreground = Color.FromRgb(0x26, 0x8b, 0xD2);
+            }
+
+            internal sealed class ColumnIndicator
+            {
+                internal static readonly Color Foreground = Color.FromRgb(0x26, 0x8b, 0xD2);
+            }
+
             #endregion
         }
 
@@ -42,7 +52,7 @@ namespace Harurow.Extensions.One.Options
 
         #region define colors
 
-        // HACK: 7.2. 色を宣言する
+        // HACK: 3.2. 色を宣言する
         [Export(typeof(EditorFormatDefinition))]
         [UserVisible(true)]
         [Name(BaseName + nameof(RightMarginColor))]
@@ -92,6 +102,32 @@ namespace Harurow.Extensions.One.Options
                 DisplayName = "Harurow.LineBreak - 改行文字の警告";
                 ForegroundColor = Defaults.LineBreakWarning.Foreground;
                 BackgroundColor = Defaults.LineBreakWarning.Background;
+            }
+        }
+
+
+        [Export(typeof(EditorFormatDefinition))]
+        [UserVisible(true)]
+        [Name(BaseName + nameof(LineIndicatorColor))]
+        public class LineIndicatorColor : ColorDefinition
+        {
+            public LineIndicatorColor()
+            {
+                DisplayName = "Harurow.CaretIndicator - 現在の行 水平線";
+                ForegroundColor = Defaults.LineIndicator.Foreground;
+                BackgroundCustomizable = false;
+            }
+        }
+        [Export(typeof(EditorFormatDefinition))]
+        [UserVisible(true)]
+        [Name(BaseName + nameof(ColumnIndicatorColor))]
+        public class ColumnIndicatorColor : ColorDefinition
+        {
+            public ColumnIndicatorColor()
+            {
+                DisplayName = "Harurow.CaretIndicator - 現在の列 垂直線";
+                ForegroundColor = Defaults.ColumnIndicator.Foreground;
+                BackgroundCustomizable = false;
             }
         }
 

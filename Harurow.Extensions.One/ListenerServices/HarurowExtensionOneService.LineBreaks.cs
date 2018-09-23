@@ -1,18 +1,18 @@
 ﻿using System;
-using Harurow.Extensions.One.Adornments;
-using Harurow.Extensions.One.Adornments.LineBreaks.VisibleLineBreaks;
-using Harurow.Extensions.One.Adornments.LineBreaks.WarningLineBreaks;
+using Harurow.Extensions.One.Adornments.LineBreaks;
 using Harurow.Extensions.One.Options;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.TextViewCreationListeners
+namespace Harurow.Extensions.One.ListenerServices
 {
+    using VisibleLineBreakLineAdornment = Adornments.LineBreaks.VisibleLineBreaks.LineAdornment;
+    using WarningLineBreakLineAdornment = Adornments.LineBreaks.WarningLineBreaks.LineAdornment;
     using VisibleLineBreakPainter = Adornments.LineBreaks.VisibleLineBreaks.Painter;
     using WarningLineBreakPainter = Adornments.LineBreaks.WarningLineBreaks.Painter;
 
     partial class HarurowExtensionOneService
     {
-        private LineBreaksAdornment LineBreaksAdornment { get; set; }
+        private TextViewAdornment LineBreaksAdornment { get; set; }
 
         private void CreateLineBreaksAdornment()
         {
@@ -56,7 +56,7 @@ namespace Harurow.Extensions.One.TextViewCreationListeners
                 ? new WarningLineBreakLineAdornment(TextView, CreateWarningLineBreakPainter())
                 : null;
 
-            LineBreaksAdornment = new LineBreaksAdornment(TextView, visibleLineBreak, warningLineBreak);
+            LineBreaksAdornment = new TextViewAdornment(TextView, visibleLineBreak, warningLineBreak);
             LineBreaksAdornment.OnInitialized();
         }
     }

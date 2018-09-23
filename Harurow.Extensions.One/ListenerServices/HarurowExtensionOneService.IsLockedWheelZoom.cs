@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Editor;
 
-namespace Harurow.Extensions.One.TextViewCreationListeners
+namespace Harurow.Extensions.One.ListenerServices
 {
     partial class HarurowExtensionOneService
     {
