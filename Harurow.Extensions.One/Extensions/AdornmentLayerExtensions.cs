@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.Extensions
 {
-    public static class AdornmentLayerExtensions
+    internal static class AdornmentLayerExtensions
     {
         public static void AddAdornment(this IAdornmentLayer self, object tag, UIElement adornment,
             AdornmentRemovedCallback removedCallback = null)

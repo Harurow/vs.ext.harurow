@@ -4,7 +4,7 @@ namespace Harurow.Extensions.One.ListenerServices
 {
     partial class HarurowExtensionOneService
     {
-        private void UpdateIsLockedWheelZoom()
+        private void AttachIsLockedWheelZoom()
         {
             var id = DefaultWpfViewOptions.EnableMouseWheelZoomId;
 

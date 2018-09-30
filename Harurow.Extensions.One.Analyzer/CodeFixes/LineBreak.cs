@@ -1,0 +1,151 @@
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Composition;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Harurow.Extensions.One.Analyzer.CodeFixes.Commons;
+using Harurow.Extensions.One.Analyzer.Commons;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
+
+namespace Harurow.Extensions.One.Analyzer.CodeFixes
+{
+    public static class LineBreak
+    {
+        #region meta
+
+        private const string Id = "HEOCF002";
+
+        private static readonly CodeDiagnosticMetaInfo MetaInfo =
+            new CodeDiagnosticMetaInfo(Id, CodeDiagnosticCategory.CodeFormat);
+
+        private static readonly DiagnosticDescriptor Rule = MetaInfo.ToDiagnosticDescriptor();
+
+        #endregion
+
+        [DiagnosticAnalyzer(LanguageNames.CSharp)]
+        public class Analyzer : DiagnosticAnalyzer
+        {
+            public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+                => ImmutableArray.Create(Rule);
+
+            public override void Initialize(AnalysisContext context)
+            {
+                context.RegisterSyntaxTreeAction(Analyze);
+            }
+
+            private void Analyze(SyntaxTreeAnalysisContext context)
+            {
+                var root = context.Tree.GetRoot(context.CancellationToken);
+
+                Report(context, root);
+            }
+
+            private void Report(SyntaxTreeAnalysisContext context, SyntaxNode root)
+            {
+                var ballotBox = new Dictionary<string, List<SyntaxTrivia>>
+                {
+                    ["\r\n"] = new List<SyntaxTrivia>(),
+                    ["\r"] = new List<SyntaxTrivia>(),
+                    ["\n"] = new List<SyntaxTrivia>(),
+                    ["\u0085"] = new List<SyntaxTrivia>(),
+                    ["\u2028"] = new List<SyntaxTrivia>(),
+                    ["\u2029"] = new List<SyntaxTrivia>(),
+                };
+
+                var text = root.GetText();
+
+                root.DescendantTrivia(null, true)
+                    .Where(t => t.IsKind(SyntaxKind.EndOfLineTrivia))
+                    .ForEach(t =>
+                    {
+                        var lineBreak = text.GetSubText(t.Span).ToString();
+                        if (ballotBox.TryGetValue(lineBreak, out var list))
+                        {
+                            list.Add(t);
+                        }
+                    });
+
+                var first = ballotBox.OrderByDescending(kv => kv.Value.Count).First();
+                var second = ballotBox.OrderByDescending(kv => kv.Value.Count).Skip(1).First();
+                if (first.Value.Count == 0 || second.Value.Count == 0)
+                {
+                    return;
+                }
+
+                var firstLineBreak = first.Key;
+                var props = CreateProperties(firstLineBreak);
+
+                ballotBox.Where(kv => kv.Key != firstLineBreak)
+                    .SelectMany(kv => kv.Value)
+                    .ForEach(t => Report(context, t, props));
+            }
+
+            private static void Report(SyntaxTreeAnalysisContext context, SyntaxTrivia trivia, ImmutableDictionary<string, string> props)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, trivia.GetLocation(), props));
+            }
+
+            private static ImmutableDictionary<string, string> CreateProperties(string lineBreak)
+            {
+                var builder = ImmutableDictionary.CreateBuilder<string, string>();
+                builder.Add("LineBreak", lineBreak);
+                return builder.ToImmutable();
+            }
+        }
+
+        [ExportCodeFixProvider(LanguageNames.CSharp)]
+        [Shared]
+        public class CodeFixer : CodeFixProvider
+        {
+            public sealed override ImmutableArray<string> FixableDiagnosticIds
+                => ImmutableArray.Create(Id);
+
+            public sealed override FixAllProvider GetFixAllProvider()
+                => WellKnownFixAllProviders.BatchFixer;
+
+            public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
+            {
+                var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+                var title = MetaInfo.ToLocalizableResourceStrings().CodeFix;
+
+                context.Diagnostics
+                    .Where(d => d.Id == Id)
+                    .ForEach(d => RegisterCodeFix(title, context, root, d));
+            }
+
+            private void RegisterCodeFix(string title, CodeFixContext context, SyntaxNode root, Diagnostic diagnostic)
+            {
+                context.RegisterCodeFix(
+                    CodeAction.Create(
+                        title,
+                        c => DoActionAsync(context, root, diagnostic, c),
+                        title),
+                    diagnostic);
+            }
+
+            // ReSharper disable once UnusedParameter.Local
+            private static Task<Document> DoActionAsync(CodeFixContext context, SyntaxNode root,
+                Diagnostic diagnostic, CancellationToken cancellationToken)
+            {
+                var span = diagnostic.Location.SourceSpan;
+                var doc = context.Document;
+                var trivia = root.FindTrivia(span.Start);
+                var token = trivia.Token;
+
+                var lineBreak = diagnostic.Properties["LineBreak"];
+                var newTrivia = SyntaxFactory.ParseTrailingTrivia(lineBreak)[0];
+
+                var newToken = token.ReplaceTrivia(trivia, newTrivia);
+                var newRoot = root.ReplaceToken(token, newToken);
+                var newDoc = doc.WithSyntaxRoot(newRoot);
+
+                return Task.FromResult(newDoc);
+            }
+        }
+    }
+}

@@ -64,7 +64,9 @@
     <Compile Include="Commands\MenuCommandBase.cs" />
     <Compile Include="Commands\CommandSets.cs" />
     <Compile Include="Commands\SetUtf8WithBomCommand.cs" />
+    <Compile Include="KeyProcessorProvider.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.CaretIndicator.cs" />
+    <Compile Include="ListenerServices\HarurowExtensionOneService.EncodingInfo.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.LineBreaks.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.IsLockedWheelZoom.cs" />
@@ -72,7 +74,6 @@
     <Compile Include="ListenerServices\HarurowExtensionOneService.cs" />
     <Compile Include="Adornments\LineBreaks\TextViewAdornment.cs" />
     <Compile Include="Adornments\LineBreaks\LineBreakKind.cs" />
-    <Compile Include="Adornments\LineBreaks\TextViewLineExtensions.cs" />
     <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\Painter.cs" />
     <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\LineAdornment.cs" />
     <Compile Include="Adornments\LineBreaks\WarningLineBreaks\LineAdornment.cs" />
@@ -108,8 +109,14 @@
     <Compile Include="Options\StoreManager.cs" />
     <Compile Include="Options\RedundantWhiteSpaceMode.cs" />
     <Compile Include="ListenerServices\TextAdornmentLayerDefinitions.cs" />
+    <Compile Include="StatusBars\DocumentInfo.cs" />
+    <Compile Include="StatusBars\DocumentInfoControl.cs" />
+    <Compile Include="StatusBars\DocumentInfoViewModel.cs" />
+    <Compile Include="Extensions\EncodingExtensions.cs" />
     <Compile Include="TextViewCreationListener.cs" />
-    <Compile Include="TextViewHelper.cs" />
+    <Compile Include="Extensions\LineBreakKindExtensions.cs" />
+    <Compile Include="Utilities\TextViewHelper.cs" />
+    <Compile Include="Utilities\StatusBarProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -225,6 +232,12 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReactiveProperty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=910d1732782c71cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveProperty.4.2.2\lib\net46\ReactiveProperty.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty.NET46, Version=4.2.6684.24516, Culture=neutral, PublicKeyToken=3d1fed915120cbde, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveProperty.4.2.2\lib\net46\ReactiveProperty.NET46.dll</HintPath>
+    </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -236,6 +249,7 @@
       <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard1.3\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Design" />
@@ -248,6 +262,9 @@
     </Reference>
     <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.1.0\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Interfaces.4.1.0\lib\net46\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -300,7 +317,12 @@
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Harurow.Extensions.One.Analyzer\Harurow.Extensions.One.Analyzer.csproj">
+      <Project>{96a99c66-b125-4962-93b4-edb9eed03ba9}</Project>
+      <Name>Harurow.Extensions.One.Analyzer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

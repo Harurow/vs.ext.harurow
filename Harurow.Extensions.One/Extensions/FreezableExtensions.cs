@@ -2,7 +2,7 @@
 
 namespace Harurow.Extensions.One.Extensions
 {
-    public static class FreezableExtensions
+    internal static class FreezableExtensions
     {
         public static T FreezeAnd<T>(this T self)
             where T : Freezable

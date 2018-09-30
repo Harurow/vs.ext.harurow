@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
@@ -53,7 +54,7 @@ namespace Harurow.Extensions.One.Adornments.LineBreaks
             // TODO: 遅延してすべて読み込んでから解析
 
             var grp = TextView.TextViewLines
-                .Select(line => line.GetLineBreakKind(TextView))
+                .Select(line => line.GetLineBreakKind())
                 .Where(lb => lb != LineBreakKind.Unknown)
                 .GroupBy(lb => lb)
                 .ToArray();

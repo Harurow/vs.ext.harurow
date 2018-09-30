@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Harurow.Extensions.One.Extensions;
+using Harurow.Extensions.One.Utilities;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -20,7 +21,7 @@ namespace Harurow.Extensions.One.Commands
         protected IWpfTextView GetTextView()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            return TextViewHelper.GetCurrentWpfTextView();
+            return TextViewHelper.CurrentWpfTextView;
         }
 
         protected ITextDocument GetTextDocument()

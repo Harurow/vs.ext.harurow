@@ -13,6 +13,8 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
         private IAdornmentLayer AdornmentLayer { get; }
         private Pen Pen { get; }
 
+        private double Left { get; set; }
+        private double Top { get; set; }
         private Image Image { get; set; }
 
         public ColumnIndicatorAdornment(IWpfTextView textView, IAdornmentLayer layer, Pen pen)
@@ -41,10 +43,18 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
 
             if (e.VerticalTranslation)
             {
-                Canvas.SetTop(Image, e.NewViewState.ViewportTop);
+                if (Top != e.NewViewState.ViewportTop)
+                {
+                    Canvas.SetTop(Image, e.NewViewState.ViewportTop);
+                    Top = e.NewViewState.ViewportTop;
+                }
             }
 
-            Canvas.SetLeft(Image, TextView.Caret.Left);
+            if (Left != TextView.Caret.Left)
+            {
+                Canvas.SetLeft(Image, TextView.Caret.Left);
+                Left = TextView.Caret.Left;
+            }
         }
 
         /// <inheritdoc />
@@ -55,7 +65,33 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
                 return;
             }
 
-            Canvas.SetLeft(Image, TextView.Caret.Left);
+            if (Left != TextView.Caret.Left)
+            {
+                Canvas.SetLeft(Image, TextView.Caret.Left);
+                Left = TextView.Caret.Left;
+            }
+        }
+
+        /// <inheritdoc />
+        public void OnSelectionChanged(object sender, EventArgs e)
+        {
+            if (Image != null)
+            {
+                if (TextView.Selection.IsEmpty)
+                {
+                    if (Image.Visibility == Visibility.Hidden)
+                    {
+                        Image.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (Image.Visibility == Visibility.Visible)
+                    {
+                        Image.Visibility = Visibility.Hidden;
+                    }
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -72,8 +108,10 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
         {
             var geo = new LineGeometry(new Point(0, 0), new Point(0, TextView.ViewportHeight)).FreezeAnd();
             var img = geo.ToImage(null, Pen);
-            Canvas.SetTop(img, TextView.ViewportTop);
-            Canvas.SetLeft(img, TextView.Caret.Left);
+            Top = TextView.ViewportTop;
+            Left = TextView.Caret.Left;
+            Canvas.SetTop(img, Top);
+            Canvas.SetLeft(img, Left);
             Panel.SetZIndex(img, 101);
             Image = img;
             AdornmentLayer.AddAdornment(typeof(LineIndicatorAdornment), Image);

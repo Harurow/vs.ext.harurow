@@ -1,10 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows;
 using Harurow.Extensions.One.Commands;
 using Harurow.Extensions.One.Options;
+using Harurow.Extensions.One.StatusBars;
+using Harurow.Extensions.One.Utilities;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
@@ -32,6 +36,10 @@ namespace Harurow.Extensions.One
 
             // ReSharper disable ObjectCreationAsStatement
             new SetUtf8WithBomCommand(menuCommandService);
+
+            var statusBar = new StatusBarProvider(Application.Current.MainWindow);
+            DocumentInfoControl.AddTo(statusBar);
+            Debug.WriteLine("* Init Harurow.One *");
         }
 
         #endregion

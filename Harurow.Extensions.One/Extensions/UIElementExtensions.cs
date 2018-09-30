@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Harurow.Extensions.One.Extensions
 {
     // ReSharper disable once InconsistentNaming
-    public static class UIElementExtensions
+    internal static class UIElementExtensions
     {
         public static T SetTopLeft<T>(this T self, Point location)
             where T : UIElement

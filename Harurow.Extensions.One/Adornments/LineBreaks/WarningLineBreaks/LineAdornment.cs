@@ -1,4 +1,5 @@
 ﻿using System;
+using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
@@ -20,7 +21,7 @@ namespace Harurow.Extensions.One.Adornments.LineBreaks.WarningLineBreaks
 
         public void AddAdornment(ITextViewLine line)
         {
-            var lineBreakKind = line.GetLineBreakKind(TextView);
+            var lineBreakKind = line.GetLineBreakKind();
 
             if (DocumentLineBreakKind == lineBreakKind ||
                 DocumentLineBreakKind == LineBreakKind.Unknown)

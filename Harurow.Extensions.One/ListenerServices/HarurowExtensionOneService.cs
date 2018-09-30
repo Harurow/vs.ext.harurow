@@ -30,6 +30,7 @@ namespace Harurow.Extensions.One.ListenerServices
             TextView.LayoutChanged += OnLayoutChanged;
             TextView.Caret.PositionChanged += OnPositionChanged;
             TextView.Options.OptionChanged += OnTextViewOptionChanged;
+            TextView.Selection.SelectionChanged += OnSelectionChanged;
             OptionObserver.OptionChanged += OnOptionChanged;
             EditorFormatMap.FormatMappingChanged += OnFormatMappingChanged;
             TextView.Closed += OnClosed;
@@ -42,7 +43,8 @@ namespace Harurow.Extensions.One.ListenerServices
         private void OnAttached(object sender, EventArgs e)
         {
             // HACK: 5.1. OnAttached. 初回イベント
-            UpdateIsLockedWheelZoom();
+            AttachIsLockedWheelZoom();
+            AttachEncodingInfo();
         }
 
         private void OnPositionChanged(object sender, CaretPositionChangedEventArgs e)
@@ -84,29 +86,37 @@ namespace Harurow.Extensions.One.ListenerServices
             }
         }
 
+        private void OnSelectionChanged(object sender, EventArgs e)
+        {
+            // HACK: 5.5. OnSelectionChanged. 選択変更のイベント
+            LineIndicator?.OnSelectionChanged(sender, e);
+            ColumnIndicator?.OnSelectionChanged(sender, e);
+        }
+
+        private void OnOptionChanged(object sender, OptionEventArgs e)
+        {
+            // HACK: 5.6. OnOptionChanged. オプション(Custom)の変更イベント
+            Values = e.NewValues;
+            ReBuild();
+            AttachIsLockedWheelZoom();
+        }
+
+        private void OnFormatMappingChanged(object sender, FormatItemsEventArgs e)
+        {
+            // HACK: 5.7. OnFormatMappingChanged. オプション(色)の変更イベント
+            Resources.CreateResource();
+            ReBuild();
+        }
+
         private void OnClosed(object sender, EventArgs e)
         {
             TextView.LayoutChanged -= OnLayoutChanged;
             TextView.Caret.PositionChanged -= OnPositionChanged;
             TextView.Options.OptionChanged -= OnTextViewOptionChanged;
+            TextView.Selection.SelectionChanged -= OnSelectionChanged;
             OptionObserver.OptionChanged -= OnOptionChanged;
             EditorFormatMap.FormatMappingChanged -= OnFormatMappingChanged;
             TextView.Closed -= OnClosed;
-        }
-
-        private void OnOptionChanged(object sender, OptionEventArgs e)
-        {
-            // HACK: 5.5. OnOptionChanged. オプション(Custom)の変更イベント
-            Values = e.NewValues;
-            ReBuild();
-            UpdateIsLockedWheelZoom();
-        }
-
-        private void OnFormatMappingChanged(object sender, FormatItemsEventArgs e)
-        {
-            // HACK: 5.6. OnFormatMappingChanged. オプション(色)の変更イベント
-            Resources.CreateResource();
-            ReBuild();
         }
 
         private void ReBuild()

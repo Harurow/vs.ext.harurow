@@ -1,4 +1,5 @@
 ﻿using System;
+using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -28,7 +29,7 @@ namespace Harurow.Extensions.One.Adornments.LineBreaks.VisibleLineBreaks
                 return;
             }
 
-            var lineBreakKind = line.GetLineBreakKind(TextView);
+            var lineBreakKind = line.GetLineBreakKind();
             Painter.AddLineBreakAdornment(lineBreakSpan, geometry.Bounds, lineBreakKind);
         }
 

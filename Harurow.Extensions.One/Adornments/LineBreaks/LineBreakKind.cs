@@ -2,6 +2,7 @@
 {
     internal enum LineBreakKind
     {
+        Mixture = -1,
         Unknown = 0,
         CrLf,
         Cr,

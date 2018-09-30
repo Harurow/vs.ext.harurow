@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Harurow.Extensions.One.Extensions
 {
-    public static class WpfTextViewExtensions
+    internal static class WpfTextViewExtensions
     {
         public static void Bind(this IWpfTextView self, IDisposable disposable)
         {
@@ -71,16 +71,16 @@ namespace Harurow.Extensions.One.Extensions
         public static IVsTextView GetVsTextView(this IWpfTextView self)
             => self.Properties.GetProperty<IVsTextView>(typeof(IVsTextView));
 
-        public static void Bind(this IWpfTextView self, EventHandler<EncodingChangedEventArgs> hanlder)
+        public static void Bind(this IWpfTextView self, EventHandler<EncodingChangedEventArgs> handler)
         {
             var doc = self.GetTextDocument();
             if (doc != null)
             {
-                doc.EncodingChanged += hanlder;
+                doc.EncodingChanged += handler;
 
                 void OnClosed(object sender, EventArgs e)
                 {
-                    doc.EncodingChanged -= hanlder;
+                    doc.EncodingChanged -= handler;
                     self.Closed -= OnClosed;
                 }
 

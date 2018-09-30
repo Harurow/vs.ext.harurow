@@ -13,6 +13,8 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
         private IAdornmentLayer AdornmentLayer { get; }
         private Pen Pen { get; }
 
+        private double Left { get; set; }
+        private double Top { get; set; }
         private Image Image { get; set; }
 
         public LineIndicatorAdornment(IWpfTextView textView, IAdornmentLayer layer, Pen pen)
@@ -41,7 +43,11 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
 
             if (e.HorizontalTranslation)
             {
-                Canvas.SetLeft(Image, e.NewViewState.ViewportLeft);
+                if (Left != e.NewViewState.ViewportLeft)
+                {
+                    Canvas.SetLeft(Image, e.NewViewState.ViewportLeft);
+                    Left = e.NewViewState.ViewportLeft;
+                }
             }
         }
 
@@ -56,7 +62,33 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
             var y = GetSafeCaretBottom();
             if (int.MinValue < y)
             {
-                Canvas.SetTop(Image, y);
+                if (Top != y)
+                {
+                    Canvas.SetTop(Image, y);
+                    Top = y;
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public void OnSelectionChanged(object sender, EventArgs e)
+        {
+            if (Image != null)
+            {
+                if (TextView.Selection.IsEmpty)
+                {
+                    if (Image.Visibility == Visibility.Hidden)
+                    {
+                        Image.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (Image.Visibility == Visibility.Visible)
+                    {
+                        Image.Visibility = Visibility.Hidden;
+                    }
+                }
             }
         }
 
@@ -74,8 +106,10 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
         {
             var geo = new LineGeometry(new Point(0, 0), new Point(TextView.ViewportWidth, 0)).FreezeAnd();
             var img = geo.ToImage(null, Pen);
-            Canvas.SetTop(img, GetSafeCaretBottom());
-            Canvas.SetLeft(img, TextView.ViewportLeft);
+            Top = GetSafeCaretBottom();
+            Left = TextView.ViewportLeft;
+            Canvas.SetTop(img, Top);
+            Canvas.SetLeft(img, Left);
             Panel.SetZIndex(img, 102);
             Image = img;
             AdornmentLayer.AddAdornment(typeof(LineIndicatorAdornment), Image);

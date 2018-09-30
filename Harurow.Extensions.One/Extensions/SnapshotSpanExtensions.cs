@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.Extensions
 {
-    public static class SnapshotSpanExtensions
+    internal static class SnapshotSpanExtensions
     {
         public static Geometry GetLineMarkerGeometry(this SnapshotSpan self, IWpfTextView textView)
             => textView.TextViewLines.GetLineMarkerGeometry(self);
