@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Text;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 
 namespace Harurow.Extensions.One.Commands
@@ -14,6 +15,8 @@ namespace Harurow.Extensions.One.Commands
 
         protected override void OnQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var doc = GetTextDocument();
             if (doc == null)
             {
@@ -26,6 +29,8 @@ namespace Harurow.Extensions.One.Commands
 
         protected override void OnExec(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var doc = GetTextDocument();
             if (doc == null)
             {

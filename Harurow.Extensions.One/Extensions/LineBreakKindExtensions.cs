@@ -9,8 +9,6 @@ namespace Harurow.Extensions.One.Extensions
         {
             switch (self)
             {
-                case LineBreakKind.Mixture:
-                    return "混在";
                 case LineBreakKind.Unknown:
                     return "";
                 case LineBreakKind.CrLf:

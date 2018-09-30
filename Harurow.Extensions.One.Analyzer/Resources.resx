@@ -117,26 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
-    <value>Type names should be all uppercase.</value>
-    <comment>An optional longer localizable description of the diagnostic.</comment>
+  <data name="HEOCF001CodeFix" xml:space="preserve">
+    <value>不要な空白を削除</value>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
-    <value>Type name '{0}' contains lowercase letters</value>
-    <comment>The format-able message the diagnostic displays.</comment>
+  <data name="HEOCF001Description" xml:space="preserve">
+    <value>不要な空白があります</value>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
-    <value>Type name contains lowercase letters</value>
-    <comment>The title of the diagnostic.</comment>
+  <data name="HEOCF001MessageFormat" xml:space="preserve">
+    <value>不要な空白が含まれています</value>
   </data>
-  <data name="HEOCF001CodeFix" xml:space="preserve"><value>不要な空白を削除</value></data>
-  <data name="HEOCF001Description" xml:space="preserve"><value>不要な空白があります</value></data>
-  <data name="HEOCF001MessageFormat" xml:space="preserve"><value>不要な空白が含まれています</value></data>
-  <data name="HEOCF001Title" xml:space="preserve"><value>不要な空白</value></data>
-
-  <data name="HEOCF002CodeFix" xml:space="preserve"><value>改行コードを修正</value></data>
-  <data name="HEOCF002Description" xml:space="preserve"><value>改行コードが混在しています</value></data>
-  <data name="HEOCF002MessageFormat" xml:space="preserve"><value>改行コードが混在しています</value></data>
-  <data name="HEOCF002Title" xml:space="preserve"><value>改行コードの混在</value></data>
-
+  <data name="HEOCF001Title" xml:space="preserve">
+    <value>不要な空白</value>
+  </data>
+  <data name="HEOCF002CodeFix" xml:space="preserve">
+    <value>改行コードを修正</value>
+  </data>
+  <data name="HEOCF002Description" xml:space="preserve">
+    <value>改行コードが混在しています</value>
+  </data>
+  <data name="HEOCF002MessageFormat" xml:space="preserve">
+    <value>改行コードが混在しています</value>
+  </data>
+  <data name="HEOCF002Title" xml:space="preserve">
+    <value>改行コードの混在</value>
+  </data>
 </root>

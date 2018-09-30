@@ -25,7 +25,10 @@ namespace Harurow.Extensions.One.Commands
         }
 
         protected ITextDocument GetTextDocument()
-            => GetTextView()?.GetTextDocument();
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return GetTextView()?.GetTextDocument();
+        }
 
         protected virtual void OnQueryStatus(object sender, EventArgs e)
         {

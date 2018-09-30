@@ -62,33 +62,6 @@ namespace Harurow.Extensions.One.Analyzer {
         }
         
         /// <summary>
-        ///   Type names should be all uppercase. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string AnalyzerDescription {
-            get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Type name &apos;{0}&apos; contains lowercase letters に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string AnalyzerMessageFormat {
-            get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Type name contains lowercase letters に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string AnalyzerTitle {
-            get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   不要な空白を削除 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string HEOCF001CodeFix {

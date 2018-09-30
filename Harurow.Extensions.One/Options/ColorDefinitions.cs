@@ -18,21 +18,9 @@ namespace Harurow.Extensions.One.Options
                 internal static readonly Color Background = Colors.Black;
             }
 
-            internal sealed class RedundantWhiteSpaces
-            {
-                internal static readonly Color Foreground = Colors.DarkOrange;
-                internal static readonly Color Background = Colors.DarkOrange;
-            }
-
             internal sealed class VisibleLineBreak
             {
                 internal static readonly Color Foreground = Color.FromRgb(0x07, 0x36, 0x42);
-            }
-
-            internal sealed class LineBreakWarning
-            {
-                internal static readonly Color Foreground = Colors.Red;
-                internal static readonly Color Background = Colors.Red;
             }
 
             internal sealed class LineIndicator
@@ -68,19 +56,6 @@ namespace Harurow.Extensions.One.Options
 
         [Export(typeof(EditorFormatDefinition))]
         [UserVisible(true)]
-        [Name(BaseName + nameof(RedundantWhiteSpacesColor))]
-        internal class RedundantWhiteSpacesColor : ColorDefinition
-        {
-            public RedundantWhiteSpacesColor()
-            {
-                DisplayName = "Harurow.RedundantWhitespaces - 改行前の連続した空白文字";
-                ForegroundColor = Defaults.RedundantWhiteSpaces.Foreground;
-                BackgroundColor = Defaults.RedundantWhiteSpaces.Background;
-            }
-        }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [UserVisible(true)]
         [Name(BaseName + nameof(VisibleLineBreakColor))]
         public class VisibleLineBreakColor : ColorDefinition
         {
@@ -91,20 +66,6 @@ namespace Harurow.Extensions.One.Options
                 BackgroundCustomizable = false;
             }
         }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [UserVisible(true)]
-        [Name(BaseName + nameof(LineBreakWarningColor))]
-        public class LineBreakWarningColor : ColorDefinition
-        {
-            public LineBreakWarningColor()
-            {
-                DisplayName = "Harurow.LineBreak - 改行文字の警告";
-                ForegroundColor = Defaults.LineBreakWarning.Foreground;
-                BackgroundColor = Defaults.LineBreakWarning.Background;
-            }
-        }
-
 
         [Export(typeof(EditorFormatDefinition))]
         [UserVisible(true)]

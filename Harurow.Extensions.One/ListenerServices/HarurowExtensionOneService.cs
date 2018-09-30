@@ -65,7 +65,6 @@ namespace Harurow.Extensions.One.ListenerServices
 
             // HACK: 5.3. OnLayoutChanged. レイアウトの変更イベント
             RightMarginAdornment?.OnLayoutChanged(sender, e);
-            RedundantWhiteSpaceAdornment?.OnLayoutChanged(sender, e);
             LineBreaksAdornment?.OnLayoutChanged(sender, e);
             LineIndicator?.OnLayoutChanged(sender, e);
             ColumnIndicator?.OnLayoutChanged(sender, e);
@@ -78,9 +77,7 @@ namespace Harurow.Extensions.One.ListenerServices
             {
                 if (IsInitialized)
                 {
-                    RedundantWhiteSpaceAdornment?.CleanUp();
                     LineBreaksAdornment?.CleanUp();
-                    CreateRedundantWhiteSpacesAdornment();
                     CreateLineBreaksAdornment();
                 }
             }
@@ -132,13 +129,11 @@ namespace Harurow.Extensions.One.ListenerServices
         {
             // HACK: 5.7. CleanUp
             RightMarginAdornment?.CleanUp();
-            RedundantWhiteSpaceAdornment?.CleanUp();
             LineBreaksAdornment?.CleanUp();
             LineIndicator?.CleanUp();
             ColumnIndicator?.CleanUp();
 
             RightMarginAdornment = null;
-            RedundantWhiteSpaceAdornment = null;
             LineBreaksAdornment = null;
             LineIndicator = null;
             ColumnIndicator = null;
@@ -148,7 +143,6 @@ namespace Harurow.Extensions.One.ListenerServices
         {
             // HACK: 5.8. CreateAdornment
             CreateRightMarginAdornment();
-            CreateRedundantWhiteSpacesAdornment();
             CreateLineBreaksAdornment();
             CreateCaretIndicatorAdornment();
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
 using System.Windows.Media;
-using Harurow.Extensions.One.Adornments.LineBreaks;
+using Harurow.Extensions.One.Analyzer.CodeFixes;
 using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -17,7 +17,6 @@ namespace Harurow.Extensions.One.StatusBars
 {
     internal class DocumentInfo
     {
-
         public IReactiveProperty<string> EncodingName { get; }
         public IReactiveProperty<Brush> EncodingBackground { get; }
         public IReactiveProperty<string> LineBreakName { get; }
@@ -51,6 +50,54 @@ namespace Harurow.Extensions.One.StatusBars
             TextView.LostAggregateFocus += OnLostAggregateFocus;
             Document.FileActionOccurred += OnFileActionOccurred;
             Document.EncodingChanged += OnEncodingChanged;
+
+            var path = Document.FilePath.ToLower();
+            var info = LineBreakAnalyzedInfo.Infos.GetOrAdd(path, key => new ReactiveProperty<LineBreakAnalyzedInfo>());
+            info.Subscribe(UpdateLineBreakAnalyzedInfo).AddTo(Disposable);
+        }
+
+        private void UpdateLineBreakAnalyzedInfo(LineBreakAnalyzedInfo info)
+        {
+            if (info == null || string.IsNullOrEmpty(info.LineBreak))
+            {
+                LineBreakName.Value = "";
+                LineBreakBackground.Value = null;
+                return;
+            }
+
+            switch (info.LineBreak)
+            {
+                case "\r\n":
+                    LineBreakName.Value = "CR/LF";
+                    break;
+                case "\r":
+                    LineBreakName.Value = "CR";
+                    break;
+                case "\n":
+                    LineBreakName.Value = "LF";
+                    break;
+                case "\u0085":
+                    LineBreakName.Value = "NEL";
+                    break;
+                case "\u2028":
+                    LineBreakName.Value = "LS";
+                    break;
+                case "\u2029":
+                    LineBreakName.Value = "PS";
+                    break;
+            }
+
+            if (info.IsMixture)
+            {
+                LineBreakName.Value += "+";
+                LineBreakBackground.Value = Brushes.DarkOrange;
+            }
+            else
+            {
+                LineBreakBackground.Value = LineBreakName.Value != "CR/LF"
+                    ? Brushes.ForestGreen
+                    : null;
+            }
         }
 
         public void RepairEncoding()
@@ -81,8 +128,7 @@ namespace Harurow.Extensions.One.StatusBars
         public void RepairLineBreak()
         {
             if (TextView.TextViewLines == null ||
-                LineBreakName.Value == "CR/LF" ||
-                LineBreakName.Value == "")
+                LineBreakName.Value == "CR/LF")
             {
                 return;
             }
@@ -101,6 +147,22 @@ namespace Harurow.Extensions.One.StatusBars
 
                 if (result == 6) // Yes
                 {
+                    var tb = Document.TextBuffer;
+                    using (var edit = tb.CreateEdit())
+                    {
+                        Document
+                            .TextBuffer
+                            .CurrentSnapshot
+                            .Lines
+                            .Where(line => line.LineBreakLength == 1)
+                            .Select(line => new Span(
+                                line.EndIncludingLineBreak.Position - line.LineBreakLength,
+                                line.LineBreakLength))
+                            .OrderByDescending(s => s.Start)
+                            .ForEach(s => edit.Replace(s, "\r\n"));
+
+                        edit.Apply();
+                    }
                 }
             });
         }
@@ -153,6 +215,7 @@ namespace Harurow.Extensions.One.StatusBars
 
         private void UpdateLineBreakInfo()
         {
+            /*
             if (TextView.TextViewLines == null)
             {
                 LineBreakName.Value = "";
@@ -173,29 +236,38 @@ namespace Harurow.Extensions.One.StatusBars
                 return;
             }
 
-            var lineBreak = lineBreakGroups.Length == 1
-                ? lineBreakGroups[0].Key
-                : LineBreakKind.Mixture;
+            IsMixtureLineBreak.Value = lineBreakGroups.Length > 1;
+            LineBreak.Value = lineBreakGroups
+                .OrderByDescending(x => x.Count())
+                .First()
+                .Key;
 
-            LineBreakName.Value = lineBreak.GetName();
-            switch (lineBreak)
+            LineBreakName.Value = LineBreak.Value.GetName();
+            if (IsMixtureLineBreak.Value)
             {
-                case LineBreakKind.CrLf:
-                    LineBreakBackground.Value = null;
-                    break;
-                case LineBreakKind.Cr:
-                case LineBreakKind.Lf:
-                case LineBreakKind.Nel:
-                case LineBreakKind.Ls:
-                case LineBreakKind.Ps:
-                    LineBreakBackground.Value = Brushes.ForestGreen;
-                    break;
-                case LineBreakKind.Mixture:
-                case LineBreakKind.Unknown:
-                default:
-                    LineBreakBackground.Value = Brushes.DarkOrange;
-                    break;
+                LineBreakName.Value += "+";
+                LineBreakBackground.Value = Brushes.DarkOrange;
             }
+            else
+            {
+                switch (LineBreak.Value)
+                {
+                    case LineBreakKind.CrLf:
+                        LineBreakBackground.Value = null;
+                        break;
+                    case LineBreakKind.Cr:
+                    case LineBreakKind.Lf:
+                    case LineBreakKind.Nel:
+                    case LineBreakKind.Ls:
+                    case LineBreakKind.Ps:
+                        LineBreakBackground.Value = Brushes.ForestGreen;
+                        break;
+                    default:
+                        LineBreakBackground.Value = Brushes.DarkOrange;
+                        break;
+                }
+            }
+            */
         }
     }
 }

@@ -9,7 +9,7 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -68,7 +68,6 @@
     <Compile Include="ListenerServices\HarurowExtensionOneService.CaretIndicator.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.EncodingInfo.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.LineBreaks.cs" />
-    <Compile Include="ListenerServices\HarurowExtensionOneService.RedundantWhiteSpace.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.IsLockedWheelZoom.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.RightMargin.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.cs" />
@@ -76,12 +75,7 @@
     <Compile Include="Adornments\LineBreaks\LineBreakKind.cs" />
     <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\Painter.cs" />
     <Compile Include="Adornments\LineBreaks\VisibleLineBreaks\LineAdornment.cs" />
-    <Compile Include="Adornments\LineBreaks\WarningLineBreaks\LineAdornment.cs" />
-    <Compile Include="Adornments\LineBreaks\WarningLineBreaks\Painter.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpaces\TextViewAdornment.cs" />
     <Compile Include="Adornments\ILineAdornment.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpaces\Painter.cs" />
-    <Compile Include="Adornments\RedundantWhiteSpaces\LineAdornment.cs" />
     <Compile Include="Extensions\AdornmentLayerExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\EditorFormatMapExtensions.cs" />
@@ -107,8 +101,12 @@
     <Compile Include="Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Options\StoreManager.cs" />
-    <Compile Include="Options\RedundantWhiteSpaceMode.cs" />
     <Compile Include="ListenerServices\TextAdornmentLayerDefinitions.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="StatusBars\DocumentInfo.cs" />
     <Compile Include="StatusBars\DocumentInfoControl.cs" />
     <Compile Include="StatusBars\DocumentInfoViewModel.cs" />
@@ -122,6 +120,10 @@
     <None Include="app.config" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

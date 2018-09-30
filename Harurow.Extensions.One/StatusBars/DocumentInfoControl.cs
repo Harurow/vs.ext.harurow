@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 using Harurow.Extensions.One.Utilities;
 using Microsoft.VisualStudio.Shell;
@@ -29,11 +28,7 @@ namespace Harurow.Extensions.One.StatusBars
             };
             item.SetBinding(Control.BackgroundProperty, new Binding("EncodingBackground.Value"));
             item.SetBinding(ContentControl.ContentProperty, new Binding("EncodingName.Value"));
-            item.MouseLeftButtonDown += (o, e) =>
-            {
-                var vm =DocumentInfoViewModel.Instance;
-                vm.EncodingCommand.Execute();
-            };
+            item.MouseLeftButtonDown += (o, e) => DocumentInfoViewModel.Instance.EncodingCommand.Execute();
 
             return item;
         }
@@ -51,6 +46,7 @@ namespace Harurow.Extensions.One.StatusBars
 
             item.SetBinding(ContentControl.ContentProperty, new Binding("LineBreakName.Value"));
             item.SetBinding(Control.BackgroundProperty, new Binding("LineBreakBackground.Value"));
+            item.MouseLeftButtonDown += (o, e) => DocumentInfoViewModel.Instance.LineBreakCommand.Execute();
 
             return item;
         }

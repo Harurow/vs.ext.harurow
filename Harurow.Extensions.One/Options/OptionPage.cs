@@ -20,24 +20,11 @@ namespace Harurow.Extensions.One.Options
         [DefaultValue(OptionValues.Defaults.RightMargin)]
         public int RightMargin { get; set; } = OptionValues.Defaults.RightMargin;
 
-        [Category("RedundantWhiteSpace")]
-        [DisplayName("改行前の連続した空白文字")]
-        [Description("改行の前の連続した空白文字を強調表示します")]
-        [DefaultValue(OptionValues.Defaults.RedundantWhiteSpaceMode)]
-        public RedundantWhiteSpaceMode RedundantWhiteSpaceMode { get; set; } =
-            OptionValues.Defaults.RedundantWhiteSpaceMode;
-
         [Category("VisibleLineBreak")]
         [DisplayName("改行の表示")]
         [Description("改行を表示します")]
         [DefaultValue(OptionValues.Defaults.VisibleLineBreakMode)]
         public LineBreakMode VisibleLineBreakMode { get; set; } = OptionValues.Defaults.VisibleLineBreakMode;
-
-        [Category("VisibleLineBreak")]
-        [DisplayName("異なる改行コードを強調")]
-        [Description("改行コードが異なる場合に強調表示します")]
-        [DefaultValue(OptionValues.Defaults.LineBreakWarningMode)]
-        public LineBreakMode LineBreakWarningMode { get; set; } = OptionValues.Defaults.LineBreakWarningMode;
 
         [Category("CaretIndicator")]
         [DisplayName("現在行の水平線")]
@@ -70,9 +57,7 @@ namespace Harurow.Extensions.One.Options
 
             // HACK: 2.2. ロードしたオプション値をダイアログへ設定する
             RightMargin = opt.RightMargin;
-            RedundantWhiteSpaceMode = opt.RedundantWhiteSpaceMode;
             VisibleLineBreakMode = opt.VisibleLineBreakMode;
-            LineBreakWarningMode = opt.LineBreakWarningMode;
             IsEnabledLineIndicator = opt.IsEnabledLineIndicator;
             IsEnabledColumnIndicator = opt.IsEnabledColumnIndicator;
             IsLockedWheelZoom = opt.IsLockedWheelZoom;
@@ -93,9 +78,7 @@ namespace Harurow.Extensions.One.Options
             var newOpt = new OptionValues
             {
                 RightMargin = Math.Max(0, Math.Min(RightMargin, 1024)),
-                RedundantWhiteSpaceMode = RedundantWhiteSpaceMode,
                 VisibleLineBreakMode = VisibleLineBreakMode,
-                LineBreakWarningMode = LineBreakWarningMode,
                 IsEnabledLineIndicator = IsEnabledLineIndicator,
                 IsEnabledColumnIndicator = IsEnabledColumnIndicator,
                 IsLockedWheelZoom = IsLockedWheelZoom,
@@ -123,14 +106,8 @@ namespace Harurow.Extensions.One.Options
             if (oldOpt.RightMargin != newOpt.RightMargin)
                 yield return nameof(RightMargin);
 
-            if (oldOpt.RedundantWhiteSpaceMode != newOpt.RedundantWhiteSpaceMode)
-                yield return nameof(RedundantWhiteSpaceMode);
-
             if (oldOpt.VisibleLineBreakMode != newOpt.VisibleLineBreakMode)
                 yield return nameof(VisibleLineBreakMode);
-
-            if (oldOpt.LineBreakWarningMode != newOpt.LineBreakWarningMode)
-                yield return nameof(LineBreakWarningMode);
 
             if (oldOpt.IsEnabledLineIndicator != newOpt.IsEnabledLineIndicator)
                 yield return nameof(IsEnabledLineIndicator);
