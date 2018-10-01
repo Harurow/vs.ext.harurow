@@ -13,6 +13,7 @@ namespace Harurow.Extensions.One.Options
         bool IsEnabledLineIndicator { get; set; }
         bool IsEnabledColumnIndicator { get; set; }
         bool IsLockedWheelZoom { get; set; }
+        bool IsEnableGoThere { get; set; }
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace Harurow.Extensions.One.Options
             public const bool IsEnabledLineIndicator = true;
             public const bool IsEnabledColumnIndicator = false;
             public const bool IsLockedWheelZoom = true;
+            public const bool IsEnableGoThere = false;
 
             #endregion
         }
@@ -45,6 +47,7 @@ namespace Harurow.Extensions.One.Options
         public bool IsEnabledLineIndicator { get; set; }
         public bool IsEnabledColumnIndicator { get; set; }
         public bool IsLockedWheelZoom { get; set; }
+        public bool IsEnableGoThere { get; set; }
 
         #endregion
 
@@ -62,6 +65,7 @@ namespace Harurow.Extensions.One.Options
             IsEnabledColumnIndicator = store.GetPropertyValue(nameof(IsEnabledColumnIndicator),
                 Defaults.IsEnabledColumnIndicator);
             IsLockedWheelZoom = store.GetPropertyValue(nameof(IsLockedWheelZoom), Defaults.IsLockedWheelZoom);
+            IsEnableGoThere = store.GetPropertyValue(nameof(IsEnableGoThere), Defaults.IsEnableGoThere);
 
             #endregion
         }
@@ -78,6 +82,7 @@ namespace Harurow.Extensions.One.Options
             store.SetPropertyValue(nameof(IsEnabledLineIndicator), IsEnabledLineIndicator);
             store.SetPropertyValue(nameof(IsEnabledColumnIndicator), IsEnabledColumnIndicator);
             store.SetPropertyValue(nameof(IsLockedWheelZoom), IsLockedWheelZoom);
+            store.SetPropertyValue(nameof(IsEnableGoThere), IsEnableGoThere);
 
             #endregion
         }

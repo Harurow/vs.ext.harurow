@@ -44,6 +44,12 @@ namespace Harurow.Extensions.One.Options
         [DefaultValue(OptionValues.Defaults.IsLockedWheelZoom)]
         public bool IsLockedWheelZoom { get; set; } = OptionValues.Defaults.IsLockedWheelZoom;
 
+        [Category("GoThere")]
+        [DisplayName("カーソル移動")]
+        [Description("モード切替でVIMライクな操作ができる")]
+        [DefaultValue(OptionValues.Defaults.IsEnableGoThere)]
+        public bool IsEnableGoThere { get; set; } = OptionValues.Defaults.IsEnableGoThere;
+
         #endregion
 
         public override void LoadSettingsFromStorage()
@@ -61,6 +67,7 @@ namespace Harurow.Extensions.One.Options
             IsEnabledLineIndicator = opt.IsEnabledLineIndicator;
             IsEnabledColumnIndicator = opt.IsEnabledColumnIndicator;
             IsLockedWheelZoom = opt.IsLockedWheelZoom;
+            IsEnableGoThere = opt.IsEnableGoThere;
 
             #endregion
         }
@@ -82,6 +89,7 @@ namespace Harurow.Extensions.One.Options
                 IsEnabledLineIndicator = IsEnabledLineIndicator,
                 IsEnabledColumnIndicator = IsEnabledColumnIndicator,
                 IsLockedWheelZoom = IsLockedWheelZoom,
+                IsEnableGoThere = IsEnableGoThere,
             };
 
             #endregion
@@ -117,6 +125,9 @@ namespace Harurow.Extensions.One.Options
 
             if (oldOpt.IsLockedWheelZoom != newOpt.IsLockedWheelZoom)
                 yield return nameof(IsLockedWheelZoom);
+
+            if (oldOpt.IsEnableGoThere != newOpt.IsEnableGoThere)
+                yield return nameof(IsEnableGoThere);
 
             #endregion
         }

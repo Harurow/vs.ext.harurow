@@ -10,7 +10,7 @@ namespace Harurow.Extensions.One.ListenerServices
     {
         private IWpfTextView TextView { get; }
         private IEditorFormatMap EditorFormatMap { get; }
-        private OptionValues Values { get; set; }
+        private IOptionValues Values { get; set; }
         private OptionResources Resources { get; }
 
         private bool IsInitialized { get; set; }

@@ -49,6 +49,16 @@ namespace Harurow.Extensions.One.Adornments.CaretIndicators
                     Left = e.NewViewState.ViewportLeft;
                 }
             }
+
+            var y = GetSafeCaretBottom();
+            if (int.MinValue < y)
+            {
+                if (Top != y)
+                {
+                    Canvas.SetTop(Image, y);
+                    Top = y;
+                }
+            }
         }
 
         /// <inheritdoc />

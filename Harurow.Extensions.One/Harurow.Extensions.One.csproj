@@ -64,7 +64,10 @@
     <Compile Include="Commands\MenuCommandBase.cs" />
     <Compile Include="Commands\CommandSets.cs" />
     <Compile Include="Commands\SetUtf8WithBomCommand.cs" />
-    <Compile Include="KeyProcessorProvider.cs" />
+    <Compile Include="UserInterfaces\KeyEvents.cs" />
+    <Compile Include="UserInterfaces\KeyProcessor.cs" />
+    <Compile Include="UserInterfaces\MouseProcessor.cs" />
+    <Compile Include="UserInterfaces\KeyProcessorProvider.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.CaretIndicator.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.EncodingInfo.cs" />
     <Compile Include="ListenerServices\HarurowExtensionOneService.LineBreaks.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Extensions\EncodingExtensions.cs" />
     <Compile Include="TextViewCreationListener.cs" />
     <Compile Include="Extensions\LineBreakKindExtensions.cs" />
+    <Compile Include="UserInterfaces\MouseProcessorProvider.cs" />
     <Compile Include="Utilities\TextViewHelper.cs" />
     <Compile Include="Utilities\StatusBarProvider.cs" />
   </ItemGroup>
