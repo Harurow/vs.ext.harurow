@@ -10,13 +10,14 @@ using Harurow.Extensions.One.Options;
 using Harurow.Extensions.One.StatusBars;
 using Harurow.Extensions.One.Utilities;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
 namespace Harurow.Extensions.One
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82", PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(PackageGuidString)]
     [ProvideOptionPage(typeof(OptionPage), "Harurow", "One", 0, 0, true)]
     [SuppressMessage(
@@ -38,7 +39,7 @@ namespace Harurow.Extensions.One
             new SetUtf8WithBomCommand(menuCommandService);
 
             var statusBar = new StatusBarProvider(Application.Current.MainWindow);
-            DocumentInfoControl.AddTo(statusBar);
+            StatusBarInfoControl.AddTo(statusBar);
             Debug.WriteLine("* Init Harurow.One *");
         }
 

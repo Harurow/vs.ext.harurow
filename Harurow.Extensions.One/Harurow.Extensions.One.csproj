@@ -64,6 +64,8 @@
     <Compile Include="Commands\MenuCommandBase.cs" />
     <Compile Include="Commands\CommandSets.cs" />
     <Compile Include="Commands\SetUtf8WithBomCommand.cs" />
+    <Compile Include="StatusBars\EncodingInfo.cs" />
+    <Compile Include="StatusBars\LineBreakInfo.cs" />
     <Compile Include="UserInterfaces\KeyEvents.cs" />
     <Compile Include="UserInterfaces\KeyProcessor.cs" />
     <Compile Include="UserInterfaces\MouseProcessor.cs" />
@@ -110,9 +112,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="StatusBars\DocumentInfo.cs" />
-    <Compile Include="StatusBars\DocumentInfoControl.cs" />
-    <Compile Include="StatusBars\DocumentInfoViewModel.cs" />
+    <Compile Include="StatusBars\StatusBarInfo.cs" />
+    <Compile Include="StatusBars\StatusBarInfoControl.cs" />
+    <Compile Include="StatusBars\StatusBarInfoViewModel.cs" />
     <Compile Include="Extensions\EncodingExtensions.cs" />
     <Compile Include="TextViewCreationListener.cs" />
     <Compile Include="Extensions\LineBreakKindExtensions.cs" />

@@ -7,10 +7,11 @@ using Reactive.Bindings.Extensions;
 
 namespace Harurow.Extensions.One.StatusBars
 {
-    internal class DocumentInfoViewModel
+    internal class StatusBarInfoViewModel
     {
-        private static readonly Lazy<DocumentInfoViewModel> LazyInstance = new Lazy<DocumentInfoViewModel>(()=> new DocumentInfoViewModel());
-        public static DocumentInfoViewModel Instance => LazyInstance.Value;
+        private static readonly Lazy<StatusBarInfoViewModel> LazyInstance
+            = new Lazy<StatusBarInfoViewModel>(()=> new StatusBarInfoViewModel());
+        public static StatusBarInfoViewModel Instance => LazyInstance.Value;
 
         public IReactiveProperty<Visibility> DocumentInfoVisibility { get; }
 
@@ -25,7 +26,7 @@ namespace Harurow.Extensions.One.StatusBars
         public CompositeDisposable Disposable { get; }
         private CompositeDisposable ModelDisposable { get; set; }
 
-        private DocumentInfoViewModel()
+        private StatusBarInfoViewModel()
         {
             Disposable = new CompositeDisposable();
             ModelDisposable = new CompositeDisposable();
@@ -49,15 +50,15 @@ namespace Harurow.Extensions.One.StatusBars
             ModelDisposable = new CompositeDisposable();
         }
 
-        public void SetTo(DocumentInfo docInfo)
+        public void SetTo(StatusBarInfo info)
         {
-            docInfo.EncodingName.Subscribe(x => EncodingName.Value = x).AddTo(ModelDisposable);
-            docInfo.EncodingBackground.Subscribe(x => EncodingBackground.Value = x).AddTo(ModelDisposable);
-            EncodingCommand.Subscribe(docInfo.RepairEncoding).AddTo(ModelDisposable);
+            info.EncodingInfo.Text.Subscribe(x => EncodingName.Value = x).AddTo(ModelDisposable);
+            info.EncodingInfo.Background.Subscribe(x => EncodingBackground.Value = x).AddTo(ModelDisposable);
+            EncodingCommand.Subscribe(info.EncodingInfo.Repair).AddTo(ModelDisposable);
 
-            docInfo.LineBreakName.Subscribe(x => LineBreakName.Value = x).AddTo(ModelDisposable);
-            docInfo.LineBreakBackground.Subscribe(x => LineBreakBackground.Value = x).AddTo(ModelDisposable);
-            LineBreakCommand.Subscribe(docInfo.RepairLineBreak).AddTo(ModelDisposable);
+            info.LineBreakInfo.Text.Subscribe(x => LineBreakName.Value = x).AddTo(ModelDisposable);
+            info.LineBreakInfo.Background.Subscribe(x => LineBreakBackground.Value = x).AddTo(ModelDisposable);
+            LineBreakCommand.Subscribe(info.LineBreakInfo.Repair).AddTo(ModelDisposable);
 
             DocumentInfoVisibility.Value = Visibility.Visible;
         }
