@@ -3,6 +3,7 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Shell;
@@ -12,21 +13,26 @@ using Microsoft.VisualStudio.Text.Editor;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace Harurow.Extensions.One.StatusBars
+namespace Harurow.Extensions.One.StatusBars.Models
 {
-    internal class EncodingInfo
+    internal class EncodingInfo : IStatusBarInfoItem
     {
         public IReactiveProperty<string> Text { get; }
+        public IReactiveProperty<Brush> Foreground { get; }
         public IReactiveProperty<Brush> Background { get; }
+        public IReactiveProperty<Visibility> Visibility { get; }
 
         private ITextDocument Document { get; }
 
-        public EncodingInfo(IWpfTextView textView, CompositeDisposable disposable)
+        public EncodingInfo(IWpfTextView textView, IReactiveProperty<Visibility> visibility,
+            CompositeDisposable disposable)
         {
             Document = textView.GetTextDocument();
 
             Text = new ReactiveProperty<string>("").AddTo(disposable);
+            Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
             Background = new ReactiveProperty<Brush>().AddTo(disposable);
+            Visibility = visibility;
 
             UpdateEncodingInfo();
 
@@ -37,7 +43,7 @@ namespace Harurow.Extensions.One.StatusBars
                 .AddTo(disposable);
         }
 
-        public void Repair()
+        public void Click()
         {
             if (Document.Encoding.IsUtf8WithBom()) return;
 
@@ -65,6 +71,7 @@ namespace Harurow.Extensions.One.StatusBars
         private void UpdateEncodingInfo()
         {
             Text.Value = Document.Encoding.GetEncodingName();
+            Foreground.Value = Document.Encoding.GetForeground();
             Background.Value = Document.Encoding.GetBackground();
         }
     }

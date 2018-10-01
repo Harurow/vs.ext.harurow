@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Windows;
 using System.Windows.Media;
 using Harurow.Extensions.One.Analyzer.CodeFixes;
 using Harurow.Extensions.One.Extensions;
@@ -12,21 +13,26 @@ using Microsoft.VisualStudio.Text.Editor;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace Harurow.Extensions.One.StatusBars
+namespace Harurow.Extensions.One.StatusBars.Models
 {
-    internal class LineBreakInfo
+    internal class LineBreakInfo : IStatusBarInfoItem
     {
         public IReactiveProperty<string> Text { get; }
+        public IReactiveProperty<Brush> Foreground { get; }
         public IReactiveProperty<Brush> Background { get; }
+        public IReactiveProperty<Visibility> Visibility { get; }
 
         private ITextDocument Document { get; }
 
-        public LineBreakInfo(IWpfTextView textView, CompositeDisposable disposable)
+        public LineBreakInfo(IWpfTextView textView, IReactiveProperty<Visibility> visibility,
+            CompositeDisposable disposable)
         {
             Document = textView.GetTextDocument();
 
             Text = new ReactiveProperty<string>("").AddTo(disposable);
+            Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
             Background = new ReactiveProperty<Brush>().AddTo(disposable);
+            Visibility = visibility;
 
             var path = Document.FilePath.ToLower();
 
@@ -36,7 +42,7 @@ namespace Harurow.Extensions.One.StatusBars
                 .AddTo(disposable);
         }
 
-        public void Repair()
+        public void Click()
         {
             if (Text.Value == "" || Text.Value == "CRLF")
             {
@@ -111,13 +117,18 @@ namespace Harurow.Extensions.One.StatusBars
             if (info.IsMixture)
             {
                 Text.Value += "+";
+                Foreground.Value = Brushes.White;
                 Background.Value = Brushes.DarkOrange;
+            }
+            else if (Text.Value != "CRLF")
+            {
+                Foreground.Value = Brushes.White;
+                Background.Value = Brushes.ForestGreen;
             }
             else
             {
-                Background.Value = Text.Value != "CRLF"
-                    ? Brushes.ForestGreen
-                    : null;
+                Foreground.Value = StatusBarInfoControl.GetUiContextTextBrush();
+                Background.Value = null;
             }
         }
     }

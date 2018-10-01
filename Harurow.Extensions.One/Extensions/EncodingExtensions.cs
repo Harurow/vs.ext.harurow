@@ -1,5 +1,8 @@
 ﻿using System.Text;
+using System.Windows;
 using System.Windows.Media;
+using Harurow.Extensions.One.StatusBars;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace Harurow.Extensions.One.Extensions
 {
@@ -24,6 +27,20 @@ namespace Harurow.Extensions.One.Extensions
             }
 
             return encodingName;
+        }
+
+        public static Brush GetForeground(this Encoding self)
+        {
+            if (self is UTF8Encoding u8)
+            {
+                var withBom = u8.GetPreamble().Length == 3;
+                if (withBom)
+                {
+                    return StatusBarInfoControl.GetUiContextTextBrush();
+                }
+            }
+
+            return Brushes.White;
         }
 
         public static Brush GetBackground(this Encoding self)
