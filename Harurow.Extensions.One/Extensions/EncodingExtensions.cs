@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using System.Windows;
 using System.Windows.Media;
 using Harurow.Extensions.One.StatusBars;
-using Microsoft.VisualStudio.PlatformUI;
 
 namespace Harurow.Extensions.One.Extensions
 {

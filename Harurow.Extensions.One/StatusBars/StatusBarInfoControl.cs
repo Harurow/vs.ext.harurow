@@ -22,7 +22,7 @@ namespace Harurow.Extensions.One.StatusBars
         public static Brush GetUiContextTextBrush()
         {
             var app = Application.Current;
-            var key = EnvironmentColors.StatusBarDebuggingTextBrushKey;
+            var key = EnvironmentColors.StatusBarDefaultTextBrushKey;
 
             if (KnownUIContexts.DebuggingContext.IsActive) key = EnvironmentColors.StatusBarDebuggingTextBrushKey;
             if (KnownUIContexts.SolutionBuildingContext.IsActive) key = EnvironmentColors.StatusBarBuildingTextBrushKey;

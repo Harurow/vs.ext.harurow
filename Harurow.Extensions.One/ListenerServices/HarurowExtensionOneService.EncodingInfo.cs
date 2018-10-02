@@ -1,5 +1,4 @@
 ﻿
-using Harurow.Extensions.One.StatusBars;
 using Harurow.Extensions.One.StatusBars.Models;
 
 namespace Harurow.Extensions.One.ListenerServices

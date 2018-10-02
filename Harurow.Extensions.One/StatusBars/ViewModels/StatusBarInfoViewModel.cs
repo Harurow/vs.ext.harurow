@@ -36,6 +36,9 @@ namespace Harurow.Extensions.One.StatusBars.ViewModels
         public void Clear()
         {
             StatusBarInfoVisibility.Value = Visibility.Collapsed;
+            GoThereInfo.Visibility.Value = Visibility.Collapsed;
+            EncodingInfo.Visibility.Value = Visibility.Collapsed;
+            LineBreakInfo.Visibility.Value = Visibility.Collapsed;
 
             ModelDisposable.Dispose();
             ModelDisposable = new CompositeDisposable();
