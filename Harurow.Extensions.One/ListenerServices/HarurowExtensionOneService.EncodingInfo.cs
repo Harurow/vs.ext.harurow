@@ -7,7 +7,7 @@ namespace Harurow.Extensions.One.ListenerServices
     {
         private void AttachEncodingInfo()
         {
-            new StatusBarInfo(TextView);
+            new StatusBarInfoModel(TextView);
         }
     }
 }

@@ -4,15 +4,15 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace Harurow.Extensions.One.UserInterfaces
 {
-    [Export(typeof(IMouseProcessorProvider))]
+    [Export(typeof(IKeyProcessorProvider))]
     [ContentType("text")]
     [TextViewRole(PredefinedTextViewRoles.Document)]
-    [Name("Mouse Processor")]
-    internal sealed class MouseProcessorProvider
-        : IMouseProcessorProvider
+    [Name("Key Processor")]
+    internal sealed class GoThereKeyProcessorProvider
+        : IKeyProcessorProvider
     {
         /// <inheritdoc />
-        public IMouseProcessor GetAssociatedProcessor(IWpfTextView textView)
-            => new MouseProcessor(textView);
+        public KeyProcessor GetAssociatedProcessor(IWpfTextView textView)
+            => new GoThereKeyProcessor(textView);
     }
 }

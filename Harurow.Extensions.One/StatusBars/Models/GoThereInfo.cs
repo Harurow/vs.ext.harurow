@@ -29,6 +29,16 @@ namespace Harurow.Extensions.One.StatusBars.Models
         }
 
         /// <inheritdoc />
+        public void Activate()
+        {
+        }
+
+        /// <inheritdoc />
+        public void Inactivate()
+        {
+        }
+
+        /// <inheritdoc />
         public void Click()
         {
         }

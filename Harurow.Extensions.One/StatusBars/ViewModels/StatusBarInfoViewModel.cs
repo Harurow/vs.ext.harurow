@@ -21,6 +21,8 @@ namespace Harurow.Extensions.One.StatusBars.ViewModels
         private CompositeDisposable Disposable { get; }
         private CompositeDisposable ModelDisposable { get; set; }
 
+        private StatusBarInfoModel ActiveInfo { get; set; }
+
         private StatusBarInfoViewModel()
         {
             Disposable = new CompositeDisposable();
@@ -35,6 +37,9 @@ namespace Harurow.Extensions.One.StatusBars.ViewModels
 
         public void Clear()
         {
+            ActiveInfo?.Inactive();
+            ActiveInfo = null;
+
             StatusBarInfoVisibility.Value = Visibility.Collapsed;
             GoThereInfo.Visibility.Value = Visibility.Collapsed;
             EncodingInfo.Visibility.Value = Visibility.Collapsed;
@@ -44,13 +49,17 @@ namespace Harurow.Extensions.One.StatusBars.ViewModels
             ModelDisposable = new CompositeDisposable();
         }
 
-        public void SetTo(StatusBarInfo info)
+        public void SetTo(StatusBarInfoModel info)
         {
             GoThereInfo.SetTo(info.GoThereInfo, ModelDisposable);
             EncodingInfo.SetTo(info.EncodingInfo, ModelDisposable);
             LineBreakInfo.SetTo(info.LineBreakInfo, ModelDisposable);
-
             StatusBarInfoVisibility.Value = Visibility.Visible;
+
+            ActiveInfo?.Inactive();
+
+            ActiveInfo = info;
+            ActiveInfo.Active();
         }
     }
 }

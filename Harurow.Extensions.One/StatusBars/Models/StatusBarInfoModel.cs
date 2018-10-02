@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.StatusBars.Models
 {
-    internal class StatusBarInfo
+    internal class StatusBarInfoModel
     {
         public IStatusBarInfoItem GoThereInfo { get; }
         public IStatusBarInfoItem EncodingInfo { get; }
@@ -20,7 +20,7 @@ namespace Harurow.Extensions.One.StatusBars.Models
         private ITextDocument Document { get; }
         private CompositeDisposable Disposable { get; }
 
-        public StatusBarInfo(IWpfTextView textView)
+        public StatusBarInfoModel(IWpfTextView textView)
         {
             Disposable = new CompositeDisposable();
             ViewModel = StatusBarInfoViewModel.Instance;
@@ -31,11 +31,25 @@ namespace Harurow.Extensions.One.StatusBars.Models
             EncodingInfo = new EncodingInfo(TextView, ViewModel.StatusBarInfoVisibility, Disposable);
             LineBreakInfo = new LineBreakInfo(TextView, ViewModel.StatusBarInfoVisibility, Disposable);
 
-            TextView.Properties.AddProperty(typeof(StatusBarInfo), this);
-
             TextView.Closed += OnClosed;
             TextView.GotAggregateFocus += OnGotAggregateFocus;
             TextView.LostAggregateFocus += OnLostAggregateFocus;
+
+            TextView.Properties.AddProperty(typeof(StatusBarInfoModel), this);
+        }
+
+        public void Active()
+        {
+            GoThereInfo.Activate();
+            EncodingInfo.Activate();
+            LineBreakInfo.Activate();
+        }
+
+        public void Inactive()
+        {
+            GoThereInfo.Inactivate();
+            EncodingInfo.Inactivate();
+            LineBreakInfo.Inactivate();
         }
 
         private void OnClosed(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Media;
+using Harurow.Extensions.One.StatusBars.Models;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 

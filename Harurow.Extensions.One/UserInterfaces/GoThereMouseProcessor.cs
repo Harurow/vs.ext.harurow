@@ -4,14 +4,14 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace Harurow.Extensions.One.UserInterfaces
 {
-    internal class MouseProcessor : IMouseProcessor
+    internal class GoThereMouseProcessor : IMouseProcessor
     {
         private IWpfTextView TextView { get; }
 
-        public MouseProcessor(IWpfTextView textView)
+        public GoThereMouseProcessor(IWpfTextView textView)
         {
             TextView = textView;
-            TextView.Properties.AddProperty(typeof(MouseProcessor), this);
+            TextView.Properties.AddProperty(typeof(GoThereMouseProcessor), this);
         }
 
         #region Implements of IMouseProcessor

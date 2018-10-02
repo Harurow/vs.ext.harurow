@@ -43,6 +43,17 @@ namespace Harurow.Extensions.One.StatusBars.Models
                 .AddTo(disposable);
         }
 
+        /// <inheritdoc />
+        public void Activate()
+        {
+        }
+
+        /// <inheritdoc />
+        public void Inactivate()
+        {
+        }
+
+        /// <inheritdoc />
         public void Click()
         {
             if (Document.Encoding.IsUtf8WithBom()) return;

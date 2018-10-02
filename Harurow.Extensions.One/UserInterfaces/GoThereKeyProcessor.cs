@@ -3,9 +3,13 @@ using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using EnvDTE80;
 using Harurow.Extensions.One.Options;
+using Harurow.Extensions.One.StatusBars;
+using Harurow.Extensions.One.StatusBars.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -14,15 +18,16 @@ using Reactive.Bindings.Extensions;
 
 namespace Harurow.Extensions.One.UserInterfaces
 {
-    internal class KeyProcessor : Microsoft.VisualStudio.Text.Editor.KeyProcessor
+    internal class GoThereKeyProcessor : KeyProcessor
     {
         private IWpfTextView TextView { get; }
         private CompositeDisposable Disposable { get; }
         private Subject<KeyEvents> Subject { get; }
 
         private ReactiveProperty<bool> IsInGoThere { get; }
+        private IStatusBarInfoItem GoThereInfo { get; }
 
-        private TimeSpan ValidInterval { get; } = TimeSpan.FromMilliseconds(600);
+        private TimeSpan ValidInterval { get; } = TimeSpan.FromMilliseconds(500);
 
         private bool IsDoubleKeyDown(KeyEvents prev, KeyEvents cur)
             => prev != null && cur != null &&
@@ -32,7 +37,7 @@ namespace Harurow.Extensions.One.UserInterfaces
                prev.Args.Key == cur.Args.Key &&
                (cur.RaiseDateTime - prev.RaiseDateTime) < ValidInterval;
 
-        public KeyProcessor(IWpfTextView textView)
+        public GoThereKeyProcessor(IWpfTextView textView)
         {
             Disposable = new CompositeDisposable();
 
@@ -61,12 +66,29 @@ namespace Harurow.Extensions.One.UserInterfaces
                     .AddTo(Disposable);
             }
 
-            IsInGoThere.Subscribe(x =>
+            IsInGoThere.Subscribe(isEnabled =>
             {
-                Debug.WriteLine($"** Go There is {x}. **");
+                if (GoThereInfo != null)
+                {
+                    if (isEnabled)
+                    {
+                        GoThereInfo.Text.Value = "Go There !";
+                        GoThereInfo.Foreground.Value = Brushes.White;
+                        GoThereInfo.Background.Value = Brushes.Purple;
+                        GoThereInfo.Visibility.Value = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GoThereInfo.Visibility.Value = Visibility.Collapsed;
+                    }
+                }
             }).AddTo(Disposable);
 
-            TextView.Properties.AddProperty(typeof(KeyProcessor), this);
+            TextView.Properties.AddProperty(typeof(GoThereKeyProcessor), this);
+            if (TextView.Properties.TryGetProperty<StatusBarInfoModel>(typeof(StatusBarInfoModel), out var prop))
+            {
+                GoThereInfo = prop.GoThereInfo;
+            }
         }
 
         private void OnClosed(object sender, EventArgs e)
@@ -77,7 +99,6 @@ namespace Harurow.Extensions.One.UserInterfaces
 
         private void MoveDown()
         {
-
             var startingPos = TextView.Caret.Position;
             var buffer = TextView.TextBuffer;
             var currentSnapshot = buffer.CurrentSnapshot;
@@ -161,9 +182,9 @@ namespace Harurow.Extensions.One.UserInterfaces
         }
 
         /// <inheritdoc />
-        public override void KeyDown(KeyEventArgs e)
+        public override void PreviewKeyDown(KeyEventArgs e)
         {
-            base.KeyDown(e);
+            base.PreviewKeyDown(e);
 
             if (IsInGoThere.Value)
             {
@@ -176,11 +197,8 @@ namespace Harurow.Extensions.One.UserInterfaces
                     switch (e.Key)
                     {
                         case Key.H:
-//                            VSCommands.Browse."");
                             break;
                         case Key.J:
-                            //var next = line.EndIncludingLineBreak.Position + 1;
-                            //TextView.TextViewLines.GetTextViewLineContainingBufferPosition(TextView.Caret.ContainingTextViewLine)
                             MoveDown();
                             break;
                         case Key.K:
@@ -188,6 +206,7 @@ namespace Harurow.Extensions.One.UserInterfaces
                         case Key.L:
                             break;
                         case Key.Enter:
+                        case Key.Escape:
                             IsInGoThere.Value = false;
                             break;
                         default:

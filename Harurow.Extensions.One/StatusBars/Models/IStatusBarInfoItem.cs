@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using Reactive.Bindings;
 
-namespace Harurow.Extensions.One.StatusBars
+namespace Harurow.Extensions.One.StatusBars.Models
 {
     internal interface IStatusBarInfoItem
     {
@@ -11,6 +11,8 @@ namespace Harurow.Extensions.One.StatusBars
         IReactiveProperty<Brush> Background { get; }
         IReactiveProperty<Visibility> Visibility { get; }
 
+        void Activate();
+        void Inactivate();
         void Click();
     }
 }
