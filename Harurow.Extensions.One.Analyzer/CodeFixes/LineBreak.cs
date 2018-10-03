@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -12,32 +11,9 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Reactive.Bindings;
 
 namespace Harurow.Extensions.One.Analyzer.CodeFixes
 {
-    using LineBreakAnalyzedInfoRxProp = IReactiveProperty<LineBreakAnalyzedInfo>;
-    using LineBreakAnalyzedInfoDic = ConcurrentDictionary<string, IReactiveProperty<LineBreakAnalyzedInfo>>;
-
-    public class LineBreakAnalyzedInfo
-    {
-        public static readonly LineBreakAnalyzedInfoDic Infos;
-
-        static LineBreakAnalyzedInfo()
-        {
-            Infos = new LineBreakAnalyzedInfoDic();
-        }
-
-        public string LineBreak { get; }
-        public bool IsMixture { get; }
-
-        public LineBreakAnalyzedInfo(string lineBreak, bool isMixture)
-        {
-            LineBreak = lineBreak;
-            IsMixture = isMixture;
-        }
-    }
-
     public static class LineBreak
     {
         #region meta
@@ -100,22 +76,16 @@ namespace Harurow.Extensions.One.Analyzer.CodeFixes
                     .OrderByDescending(kv => kv.Value.Count)
                     .ToArray();
 
-                var path = context.Tree.FilePath.ToLower();
-                var info = LineBreakAnalyzedInfo.Infos.GetOrAdd(path, key => new ReactiveProperty<LineBreakAnalyzedInfo>());
-
                 if (validBallotBox.Length == 0)
                 {
-                    info.Value = new LineBreakAnalyzedInfo("", false);
                     return;
                 }
 
                 var majority = validBallotBox[0];
                 if (validBallotBox.Length == 1)
                 {
-                    info.Value = new LineBreakAnalyzedInfo(majority.Key, false);
                     return;
                 }
-                info.Value = new LineBreakAnalyzedInfo(majority.Key, true);
 
                 var majorityLineBreak = majority.Key;
                 var props = CreateProperties(majorityLineBreak);

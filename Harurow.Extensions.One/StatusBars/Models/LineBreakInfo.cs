@@ -2,9 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Harurow.Extensions.One.Analyzer.CodeFixes;
+using Harurow.Extensions.One.Adornments.LineBreaks;
 using Harurow.Extensions.One.Extensions;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -34,17 +35,19 @@ namespace Harurow.Extensions.One.StatusBars.Models
             Background = new ReactiveProperty<Brush>().AddTo(disposable);
             Visibility = visibility;
 
-            var path = Document.FilePath.ToLower();
-
-            LineBreakAnalyzedInfo
-                .Infos.GetOrAdd(path, key => new ReactiveProperty<LineBreakAnalyzedInfo>())
-                .Subscribe(UpdateLineBreakAnalyzedInfo)
+            Observable.FromEventPattern<TextDocumentFileActionEventArgs>(
+                    h => Document.FileActionOccurred += h,
+                    h => Document.FileActionOccurred -= h)
+                .Subscribe(_ => Analyze())
                 .AddTo(disposable);
+
+            Analyze();
         }
 
         /// <inheritdoc />
         public void Activate()
         {
+            Analyze();
         }
 
         /// <inheritdoc />
@@ -55,6 +58,8 @@ namespace Harurow.Extensions.One.StatusBars.Models
         /// <inheritdoc />
         public void Click()
         {
+            Analyze();
+
             if (Text.Value == "" || Text.Value == "CRLF")
             {
                 return;
@@ -94,38 +99,59 @@ namespace Harurow.Extensions.One.StatusBars.Models
             });
         }
 
-        private void UpdateLineBreakAnalyzedInfo(LineBreakAnalyzedInfo info)
+        private void Analyze()
         {
-            if (info == null || string.IsNullOrEmpty(info.LineBreak))
+            var lineBreaks = Document
+                .TextBuffer
+                .CurrentSnapshot
+                .Lines
+                .Where(l => l.LineBreakLength > 0)
+                .Select(l => l.GetLineBreakKind())
+                .Where(lb => lb != LineBreakKind.Unknown)
+                .GroupBy(lb => lb)
+                .OrderByDescending(g => g.Count())
+                .ToArray();
+
+            if (lineBreaks.Length == 0)
+            {
+                UpdateLineBreakAnalyzedInfo(LineBreakKind.Unknown, false);
+            }
+
+            UpdateLineBreakAnalyzedInfo(lineBreaks[0].Key, lineBreaks.Length != 1);
+        }
+
+        private void UpdateLineBreakAnalyzedInfo(LineBreakKind lineBreak, bool isMixture)
+        {
+            if (lineBreak == LineBreakKind.Unknown)
             {
                 Text.Value = "";
                 Background.Value = null;
                 return;
             }
 
-            switch (info.LineBreak)
+            switch (lineBreak)
             {
-                case "\r\n":
+                case LineBreakKind.CrLf:
                     Text.Value = "CRLF";
                     break;
-                case "\r":
+                case LineBreakKind.Cr:
                     Text.Value = "CR";
                     break;
-                case "\n":
+                case LineBreakKind.Lf:
                     Text.Value = "LF";
                     break;
-                case "\u0085":
+                case LineBreakKind.Nel:
                     Text.Value = "NEL";
                     break;
-                case "\u2028":
+                case LineBreakKind.Ls:
                     Text.Value = "LS";
                     break;
-                case "\u2029":
+                case LineBreakKind.Ps:
                     Text.Value = "PS";
                     break;
             }
 
-            if (info.IsMixture)
+            if (isMixture)
             {
                 Text.Value += "+";
                 Foreground.Value = Brushes.White;
