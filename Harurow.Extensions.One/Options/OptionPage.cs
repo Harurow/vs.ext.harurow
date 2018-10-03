@@ -45,7 +45,7 @@ namespace Harurow.Extensions.One.Options
         public bool IsLockedWheelZoom { get; set; } = OptionValues.Defaults.IsLockedWheelZoom;
 
         [Category("GoThere")]
-        [DisplayName("カーソル移動")]
+        [DisplayName("カーソル移動 (実験段階 有効にしないでください)")]
         [Description("モード切替でVIMライクな操作ができる")]
         [DefaultValue(OptionValues.Defaults.IsEnableGoThere)]
         public bool IsEnableGoThere { get; set; } = OptionValues.Defaults.IsEnableGoThere;
