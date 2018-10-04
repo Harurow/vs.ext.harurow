@@ -64,6 +64,7 @@
     <Compile Include="Commands\MenuCommandBase.cs" />
     <Compile Include="Commands\CommandSets.cs" />
     <Compile Include="Commands\SetUtf8WithBomCommand.cs" />
+    <Compile Include="Extensions\TextSnapShotLineExtensions.cs" />
     <Compile Include="StatusBars\Models\EncodingInfo.cs" />
     <Compile Include="StatusBars\Models\GoThereInfo.cs" />
     <Compile Include="StatusBars\Models\IStatusBarInfoItem.cs" />
