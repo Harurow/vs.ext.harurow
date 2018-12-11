@@ -30,24 +30,30 @@ namespace Harurow.Extensions.One.StatusBars.Models
         {
             Document = textView.GetTextDocument();
 
-            Text = new ReactiveProperty<string>("").AddTo(disposable);
-            Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
-            Background = new ReactiveProperty<Brush>().AddTo(disposable);
-            Visibility = visibility;
+            if (Document != null)
+            {
+                Text = new ReactiveProperty<string>("").AddTo(disposable);
+                Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
+                Background = new ReactiveProperty<Brush>().AddTo(disposable);
+                Visibility = visibility;
 
-            Observable.FromEventPattern<TextDocumentFileActionEventArgs>(
-                    h => Document.FileActionOccurred += h,
-                    h => Document.FileActionOccurred -= h)
-                .Subscribe(_ => Analyze())
-                .AddTo(disposable);
+                Observable.FromEventPattern<TextDocumentFileActionEventArgs>(
+                        h => Document.FileActionOccurred += h,
+                        h => Document.FileActionOccurred -= h)
+                    .Subscribe(_ => Analyze())
+                    .AddTo(disposable);
 
-            Analyze();
+                Analyze();
+            }
         }
 
         /// <inheritdoc />
         public void Activate()
         {
-            Analyze();
+            if (Document != null)
+            {
+                Analyze();
+            }
         }
 
         /// <inheritdoc />
@@ -58,6 +64,8 @@ namespace Harurow.Extensions.One.StatusBars.Models
         /// <inheritdoc />
         public void Click()
         {
+            if (Document == null) return;
+
             Analyze();
 
             if (Text.Value == "" || Text.Value == "CRLF")

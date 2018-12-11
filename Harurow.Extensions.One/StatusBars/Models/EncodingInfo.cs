@@ -29,18 +29,21 @@ namespace Harurow.Extensions.One.StatusBars.Models
         {
             Document = textView.GetTextDocument();
 
-            Text = new ReactiveProperty<string>("").AddTo(disposable);
-            Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
-            Background = new ReactiveProperty<Brush>().AddTo(disposable);
-            Visibility = visibility;
+            if (Document != null)
+            {
+                Text = new ReactiveProperty<string>("").AddTo(disposable);
+                Foreground = new ReactiveProperty<Brush>().AddTo(disposable);
+                Background = new ReactiveProperty<Brush>().AddTo(disposable);
+                Visibility = visibility;
 
-            UpdateEncodingInfo();
+                UpdateEncodingInfo();
 
-            Observable.FromEventPattern<EncodingChangedEventArgs>(
-                    h => Document.EncodingChanged += h,
-                    h => Document.EncodingChanged -= h)
-                .Subscribe(_ => UpdateEncodingInfo())
-                .AddTo(disposable);
+                Observable.FromEventPattern<EncodingChangedEventArgs>(
+                        h => Document.EncodingChanged += h,
+                        h => Document.EncodingChanged -= h)
+                    .Subscribe(_ => UpdateEncodingInfo())
+                    .AddTo(disposable);
+            }
         }
 
         /// <inheritdoc />
@@ -56,7 +59,7 @@ namespace Harurow.Extensions.One.StatusBars.Models
         /// <inheritdoc />
         public void Click()
         {
-            if (Document.Encoding.IsUtf8WithBom()) return;
+            if (Document == null || Document.Encoding.IsUtf8WithBom()) return;
 
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
