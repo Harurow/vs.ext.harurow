@@ -109,6 +109,11 @@ namespace Harurow.Extensions.One.StatusBars.Models
 
         private void Analyze()
         {
+            if (Document == null || Document.TextBuffer == null)
+            {
+                return;
+            }
+
             var lineBreaks = Document
                 .TextBuffer
                 .CurrentSnapshot
